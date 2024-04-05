@@ -71,3 +71,6 @@ end
 # Gems added by dev
 gem 'activeadmin'
 gem 'devise'
+gem 'sassc-rails'
+
+gem 'faker', :git => 'https://github.com/faker-ruby/faker.git', :branch => 'main'
