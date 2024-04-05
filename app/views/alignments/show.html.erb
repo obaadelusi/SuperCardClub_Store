@@ -1,0 +1,10 @@
+<p style="color: green"><%= notice %></p>
+
+<%= render @alignment %>
+
+<div>
+  <%= link_to "Edit this alignment", edit_alignment_path(@alignment) %> |
+  <%= link_to "Back to alignments", alignments_path %>
+
+  <%= button_to "Destroy this alignment", @alignment, method: :delete %>
+</div>

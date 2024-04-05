@@ -1,0 +1,29 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  name: MyString
+  description: MyText
+  price: 9.99
+  stat_combat: 1
+  stat_durability: 1
+  stat_intelligence: 1
+  stat_power: 1
+  stat_speed: 1
+  stat_strength: 1
+  publisher: one
+  alignment: one
+  race: one
+
+two:
+  name: MyString
+  description: MyText
+  price: 9.99
+  stat_combat: 1
+  stat_durability: 1
+  stat_intelligence: 1
+  stat_power: 1
+  stat_speed: 1
+  stat_strength: 1
+  publisher: two
+  alignment: two
+  race: two

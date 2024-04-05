@@ -1,0 +1,14 @@
+<p style="color: green"><%= notice %></p>
+
+<h1>Alignments</h1>
+
+<div id="alignments">
+  <% @alignments.each do |alignment| %>
+    <%= render alignment %>
+    <p>
+      <%= link_to "Show this alignment", alignment %>
+    </p>
+  <% end %>
+</div>
+
+<%= link_to "New alignment", new_alignment_path %>
