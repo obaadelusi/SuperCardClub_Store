@@ -1,10 +1,44 @@
-<p style="color: green"><%= notice %></p>
+<header class="page-header-plus-pattern">
+  <small class="text-uppercase">Publisher</small>
+  <h1><%= @publisher.name %></h1>
+  <div class="d-flex align-items-center">
+    <%= link_to "Edit this publisher", edit_publisher_path(@publisher) %> &ensp; /
+    <%= button_to "Delete", @publisher, method: :delete, :class => 'btn-reset d-inline text-danger' %>
+  </div>
+</header>
 
-<%= render @publisher %>
+<main class="container">
+  <p class="text-success"><%= notice %></p>
 
-<div>
-  <%= link_to "Edit this publisher", edit_publisher_path(@publisher) %> |
-  <%= link_to "Back to publishers", publishers_path %>
+  <div class="d-flex align-items-center gap-2 py-2">
+    <i class="bi bi-arrow-left-circle"></i>
+    <%= link_to "All publishers", publishers_path %>
+  </div>
 
-  <%= button_to "Destroy this publisher", @publisher, method: :delete %>
-</div>
+  <div class="d-flex align-items-center gap-2 mt-3" id="publisher">
+    <i class="bi bi-printer-fill"></i>
+    <h3><%= @publisher.name %></h3>
+  </div>
+
+  <ul>
+    <li>Characters published: <%= @publisher.characters.count %></li>
+  </ul>
+
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Character name</th>
+      </tr>
+    </thead>
+    <tbody class="table-group-divider">
+      <% @publisher.characters.each_with_index do |c, i| %>
+      <tr>
+        <th scope="row"><%= i+1 %></th>
+        <td><%= link_to c.name, c %></td>
+      </tr>
+      <% end %>
+    </tbody>
+  </table>
+
+</main>

@@ -1,7 +1,14 @@
 <div class="container">
   <p style="color: green"><%= notice %></p>
 
-  <h1>Characters</h1>
+  <h1>Character Cards</h1>
+
+  <div class="alert alert-primary d-flex align-items-center gap-2" role="alert">
+    <i class="bi bi-info-circle"></i>
+    <div>
+      There are <%=@characters.length%> character cards
+    </div>
+  </div>
 
   <div class="d-flex p-4">
     <%= link_to "+ Add new character", new_character_path, :class => 'btn btn-success ms-auto' %>

@@ -1,14 +1,27 @@
-<p style="color: green"><%= notice %></p>
+<header class="page-header" style="background-image:url(<%=image_path('comic_books_unsplash.jpg')%>)">
+  <h1 class="text-white">Publishers</h1>
+</header>
 
-<h1>Publishers</h1>
+<div class="container mb-5">
+  <p class="text-success"><%= notice %></p>
 
-<div id="publishers">
-  <% @publishers.each do |publisher| %>
-    <%= render publisher %>
-    <p>
-      <%= link_to "Show this publisher", publisher %>
-    </p>
-  <% end %>
+  <%= link_to "+ New publisher", new_publisher_path, :class => 'btn btn-success my-3' %>
+
+  <div class="alert alert-primary d-flex align-items-center gap-2" role="alert">
+    <i class="bi bi-info-circle-fill"></i>
+    <div>
+      There are currently <code><%= @publishers.count %></code> publishers.
+    </div>
+  </div>
+
+  <ol class="list-group list-group-numbered w-100" id="publishers">
+    <% @publishers.each do |p, i| %>
+    <li class="list-group-item d-flex justify-content-between align-items-start gap-2 w-100">
+      <div class="ms-2 flex-grow-1">
+        <div class="fw-bold text-wrap"><%= p.name %></div>
+        <%= link_to "View this publisher", p %>
+      </div>
+    </li>
+    <% end %>
+  </ol>
 </div>
-
-<%= link_to "New publisher", new_publisher_path %>
