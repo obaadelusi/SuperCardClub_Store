@@ -3,7 +3,7 @@ class CharactersController < ApplicationController
 
   # GET /characters or /characters.json
   def index
-    @characters = Character.all
+    @characters = Character.order("RANDOM()").all
   end
 
   # GET /characters/1 or /characters/1.json
@@ -65,6 +65,6 @@ class CharactersController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def character_params
-      params.require(:character).permit(:name, :description, :price, :stat_combat, :stat_durability, :stat_intelligence, :stat_power, :stat_speed, :stat_strength)
+      params.require(:character).permit(:name, :description, :price, :stat_combat, :stat_durability, :stat_intelligence, :stat_power, :stat_speed, :stat_strength, :image)
     end
 end

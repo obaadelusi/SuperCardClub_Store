@@ -1,14 +1,19 @@
-<p style="color: green"><%= notice %></p>
+<div class="container">
+  <p style="color: green"><%= notice %></p>
 
-<h1>Characters</h1>
+  <h1>Characters</h1>
 
-<div id="characters">
-  <% @characters.each do |character| %>
-    <%= render character %>
-    <p>
-      <%= link_to "Show this character", character %>
-    </p>
-  <% end %>
+  <div class="d-flex p-4">
+    <%= link_to "+ Add new character", new_character_path, :class => 'btn btn-success ms-auto' %>
+  </div>
+
+  <div id="characters">
+    <div class="row row-cols-1 row-cols-md-2 g-4">
+      <% @characters.each do |character| %>
+      <div class="col">
+        <%= render character %>
+      </div>
+      <% end %>
+    </div>
+  </div>
 </div>
-
-<%= link_to "New character", new_character_path %>

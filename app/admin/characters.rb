@@ -5,7 +5,8 @@ ActiveAdmin.register Character do
   #
   # Uncomment all parameters which should be permitted for assignment
   #
-  # permit_params :name, :description, :price, :stat_combat, :stat_durability, :stat_intelligence, :stat_power, :stat_speed, :stat_strength, :publisher_id, :alignment_id, :race_id
+  permit_params :name, :description, :price, :stat_combat, :stat_durability, :stat_intelligence, :stat_power, :stat_speed, :stat_strength, :publisher_id, :alignment_id, :race_id
+  remove_filter :image_attachment, :image_blob
   #
   # or
   #
@@ -14,5 +15,14 @@ ActiveAdmin.register Character do
   #   permitted << :other if params[:action] == 'create' && current_user.admin?
   #   permitted
   # end
-  
+
+  form do |f|
+    f.semantic_errors
+    f.inputs
+    f.inputs do
+      f.input :image, as: :file, hint: f.object.image.present? ? image_tag(f.object.image) : ""
+    end
+    f.actions
+  end
+
 end

@@ -1,47 +1,26 @@
-<div id="<%= dom_id character %>">
-  <p>
-    <strong>Name:</strong>
-    <%= character.name %>
-  </p>
-
-  <p>
-    <strong>Description:</strong>
-    <%= character.description %>
-  </p>
-
-  <p>
-    <strong>Price:</strong>
-    <%= character.price %>
-  </p>
-
-  <p>
-    <strong>Stat combat:</strong>
-    <%= character.stat_combat %>
-  </p>
-
-  <p>
-    <strong>Stat durability:</strong>
-    <%= character.stat_durability %>
-  </p>
-
-  <p>
-    <strong>Stat intelligence:</strong>
-    <%= character.stat_intelligence %>
-  </p>
-
-  <p>
-    <strong>Stat power:</strong>
-    <%= character.stat_power %>
-  </p>
-
-  <p>
-    <strong>Stat speed:</strong>
-    <%= character.stat_speed %>
-  </p>
-
-  <p>
-    <strong>Stat strength:</strong>
-    <%= character.stat_strength %>
-  </p>
-
+<div id="<%= dom_id character %>" class="card overflow-hidden" style="max-width: 540px;">
+  <div class="row g-0">
+    <div class="col-md-4 card-image-cover">
+      <% if character.image.present? %>
+      <%= image_tag character.image, :class => 'img-fluid rounded-start', alt: character.name %>
+      <% else %>
+      <%= image_tag("empty_image.jpg") %>
+      <% end %>
+    </div>
+    <div class="col-md-8">
+      <div class="card-body">
+        <h3 class="card-title"><%= character.name %></h3>
+        <p class="card-text"><%= character.description[0,70] %>...</p>
+        <small class="text-body-secondary"><em>by</em> <%= character.publisher.name %></small>
+      </div>
+      <ul class="list-group list-group-flush">
+        <li class="list-group-item">Combat: <%= character.stat_combat %>, Intelligence:
+          <%= character.stat_intelligence %>, Speed: <%= character.stat_speed %></li>
+        <li class="list-group-item">Price: $<%=character.price%></li>
+      </ul>
+      <div class="card-footer">
+        <%= link_to "View #{character.name}", character %>
+      </div>
+    </div>
+  </div>
 </div>
