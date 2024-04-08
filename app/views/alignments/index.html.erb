@@ -1,14 +1,27 @@
-<p style="color: green"><%= notice %></p>
+<header class="page-header" style="background-image:url(<%=image_path('hero_text_unsplash.jpg')%>)">
+  <h1 class="text-white">Alignments</h1>
+</header>
 
-<h1>Alignments</h1>
+<div class="container mb-5">
+  <p class="text-success"><%= notice %></p>
 
-<div id="alignments">
-  <% @alignments.each do |alignment| %>
-    <%= render alignment %>
-    <p>
-      <%= link_to "Show this alignment", alignment %>
-    </p>
-  <% end %>
+  <%= link_to "+ New alignment", new_alignment_path, :class => 'btn btn-success my-3' %>
+
+  <div class="alert alert-primary d-flex align-items-center gap-2" role="alert">
+    <i class="bi bi-info-circle-fill"></i>
+    <div>
+      There are currently <code><%= @alignments.count %></code> alignments.
+    </div>
+  </div>
+
+  <ol class="list-group list-group-numbered w-100" id="alignments">
+    <% @alignments.each do |a, i| %>
+    <li class="list-group-item d-flex justify-content-between align-items-start gap-2 w-100">
+      <div class="ms-2 flex-grow-1">
+        <div class="fw-bold text-wrap"><%= a.name=='good'? 'Heroes' : 'Villains' %></div>
+        <%= link_to "View this alignment", a %>
+      </div>
+    </li>
+    <% end %>
+  </ol>
 </div>
-
-<%= link_to "New alignment", new_alignment_path %>

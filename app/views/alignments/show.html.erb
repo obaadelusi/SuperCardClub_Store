@@ -1,10 +1,48 @@
-<p style="color: green"><%= notice %></p>
+<header class="page-header-dot-pattern">
+  <small class="text-uppercase">Alignment</small>
+  <h1><%= @alignment.name == 'good' ? 'Hero' : 'Villain' %></h1>
+  <div class="d-flex align-items-center">
+    <%= link_to "Edit this alignment", edit_alignment_path(@alignment) %> &ensp; /
+    <%= button_to "Delete", @alignment, method: :delete, :class => 'btn-reset d-inline text-danger' %>
+  </div>
+</header>
 
-<%= render @alignment %>
+<main class="container">
+  <p class="text-success"><%= notice %></p>
 
-<div>
-  <%= link_to "Edit this alignment", edit_alignment_path(@alignment) %> |
-  <%= link_to "Back to alignments", alignments_path %>
+  <div class="d-flex align-items-center gap-2 py-2">
+    <i class="bi bi-arrow-left-circle"></i>
+    <%= link_to "All alignments", alignments_path %>
+  </div>
 
-  <%= button_to "Destroy this alignment", @alignment, method: :delete %>
-</div>
+  <div class="d-flex align-items-center gap-2 mt-3" id="alignment">
+    <% if @alignment.name == 'good' %>
+    <i class="bi bi-check-circle text-success"></i>
+    <% else %>
+    <i class="bi bi-radioactive text-danger"></i>
+    <% end %>
+    <h3><%= @alignment.name %></h3>
+  </div>
+
+  <ul>
+    <li>Characters published: <%= @alignment.characters.count %></li>
+  </ul>
+
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Character name</th>
+      </tr>
+    </thead>
+    <tbody class="table-group-divider">
+      <% @alignment.characters.each_with_index do |c, i| %>
+      <tr>
+        <th scope="row"><%= i+1 %></th>
+        <td><%= link_to c.name, c %></td>
+      </tr>
+      <% end %>
+    </tbody>
+  </table>
+
+</main>
