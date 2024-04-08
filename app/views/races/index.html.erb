@@ -1,14 +1,29 @@
-<p style="color: green"><%= notice %></p>
+<header class="page-header" style="background-image:url(<%=image_path('groot_unsplash.jpg')%>)">
+  <h1 class="text-white">Races</h1>
+</header>
 
-<h1>Races</h1>
+<div class="container mb-5">
+  <div class="alert alert-info" role="alert">
+    <%= notice %>
+  </div>
 
-<div id="races">
-  <% @races.each do |race| %>
-    <%= render race %>
-    <p>
-      <%= link_to "Show this race", race %>
-    </p>
-  <% end %>
+  <%= link_to "+ New race", new_race_path, :class => 'btn btn-success my-3' %>
+
+  <div class="alert alert-primary d-flex align-items-center gap-2" role="alert">
+    <i class="bi bi-info-circle-fill"></i>
+    <div>
+      There are currently <code><%= @races.count %></code> races.
+    </div>
+  </div>
+
+  <ol class="list-group list-group-numbered w-100" id="races">
+    <% @races.each do |r, i| %>
+    <li class="list-group-item d-flex justify-content-between align-items-start gap-2 w-100">
+      <div class="ms-2 flex-grow-1">
+        <div class="fw-bold text-wrap"><%= r.name %></div>
+        <%= link_to "View this race", r %>
+      </div>
+    </li>
+    <% end %>
+  </ol>
 </div>
-
-<%= link_to "New race", new_race_path %>
