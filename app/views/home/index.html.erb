@@ -1,0 +1,32 @@
+<div class="container">
+    <h1>Super Card Club Store</h1>
+
+    <div id="<%= dom_id @character %>" class="card overflow-hidden" style="max-width: 540px;">
+        <div class="row g-0">
+            <div class="col-md-4 card-image-cover">
+                <% if @character.image.present? %>
+                <%= image_tag @character.image, :class => 'img-fluid rounded-start', alt: @character.name %>
+                <% else %>
+                <%= image_tag("empty_image.jpg") %>
+                <% end %>
+            </div>
+            <div class="col-md-8">
+                <div class="card-body">
+                    <h3 class="card-title"><%= @character.name %></h3>
+                    <p class="card-text"><%= @character.description[0,70] %>...</p>
+                    <small class="text-body-secondary"><em>by</em> <%= @character.publisher.name %></small>
+                </div>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">Combat: <%= @character.stat_combat %>, Intelligence:
+                        <%= @character.stat_intelligence %>, Speed: <%= @character.stat_speed %></li>
+                    <li class="list-group-item">Price: $<%=@character.price%></li>
+                </ul>
+                <div class="card-footer">
+                    <%= link_to "View #{@character.name}", @character %>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <a href="/characters" class="btn btn-primary">View all character cards</a>
+</div>
