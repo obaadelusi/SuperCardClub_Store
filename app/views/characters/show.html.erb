@@ -10,9 +10,12 @@
 <main class="container flex-grow-1">
   <p class="text-success"><%= notice %></p>
 
-  <div class="d-flex align-items-center gap-2 py-2">
-    <i class="bi bi-arrow-left-circle"></i>
-    <%= link_to "Back to all characters", characters_path %>
+  <div id="breadcrumbs" class="d-flex align-items-center gap-1 py-2 text-bg-light">
+    <%= link_to 'Home', root_path, :class => 'text-decoration-none' %> /
+    <%= link_to "Characters", characters_path, :class => 'text-decoration-none' %>
+    <i class="bi bi-arrow-right"></i>
+    <span class="text-secondary"><%= @character.name %></span>
+    <%#= link_to @page.title, page_by_slug_url(slug: @page.slug) %>
   </div>
 
   <div class="row g-4 my-5" id="character">
