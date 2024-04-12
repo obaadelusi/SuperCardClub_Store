@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_04_05_213119) do
+ActiveRecord::Schema[7.1].define(version: 2024_04_12_200347) do
   create_table "active_admin_comments", force: :cascade do |t|
     t.string "namespace"
     t.text "body"
@@ -86,9 +86,19 @@ ActiveRecord::Schema[7.1].define(version: 2024_04_05_213119) do
     t.integer "race_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean "onSale"
     t.index ["alignment_id"], name: "index_characters_on_alignment_id"
     t.index ["publisher_id"], name: "index_characters_on_publisher_id"
     t.index ["race_id"], name: "index_characters_on_race_id"
+  end
+
+  create_table "pages", force: :cascade do |t|
+    t.string "title"
+    t.text "content"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "slug"
+    t.index ["slug"], name: "index_pages_on_slug"
   end
 
   create_table "publishers", force: :cascade do |t|

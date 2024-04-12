@@ -70,6 +70,14 @@ a {
         z-index: -1;
     }
 
+    &-bg-light {
+        @extend .page-header;
+
+        &::after {
+            background-color: #f5f5f7;
+        }
+    }
+
     &-plus-pattern {
         height: 200px;
         display: flex;
