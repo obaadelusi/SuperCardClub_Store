@@ -16,7 +16,15 @@
       <ul class="list-group list-group-flush">
         <li class="list-group-item">Combat: <%= character.stat_combat %>, Intelligence:
           <%= character.stat_intelligence %>, Speed: <%= character.stat_speed %></li>
-        <li class="list-group-item">Price: $<%=character.price%></li>
+        <li class="list-group-item">
+          Price: $<%=character.price%>
+          <% if character.onSale==true %>
+          <div class="d-inline-block bg-danger text-light bg-opacity-75 rounded-circle"
+            style="width:35px;height:35px;text-align:center;line-height:2;">
+            <small style="font-weight:500;">sale!</small>
+          </div>
+          <% end %>
+        </li>
       </ul>
       <div class="card-footer">
         <%= link_to "View #{character.name}", character %>

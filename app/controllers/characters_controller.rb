@@ -3,7 +3,15 @@ class CharactersController < ApplicationController
 
   # GET /characters or /characters.json
   def index
-    @characters = Character.order("RANDOM()").all
+    filter = params[:filter].present? ? params[:filter] : ''
+
+    if params[:filter]=='onSale'
+      @characters = Character.where(onSale: filter)
+    elsif params[:filter]=='new'
+      @characters = Character.where("created_at >= ?", 3.days.ago)
+    else
+      @characters = Character.order("RANDOM()").all
+    end
   end
 
   # GET /characters/1 or /characters/1.json
