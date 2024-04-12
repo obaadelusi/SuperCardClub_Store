@@ -31,7 +31,12 @@
 
       <p class="text-bg-light">
         <strong>Publisher:</strong>
-        <%= @character.publisher.name %>
+        <%= link_to @character.publisher.name, @character.publisher %>
+      </p>
+
+      <p class="text-bg-light">
+        <strong>Race:</strong>
+        <%= link_to @character.race.name, @character.race %>
       </p>
 
       <p>
