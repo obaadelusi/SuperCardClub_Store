@@ -5,7 +5,7 @@ ActiveAdmin.register Character do
   #
   # Uncomment all parameters which should be permitted for assignment
   #
-  permit_params :name, :description, :price, :stat_combat, :stat_durability, :stat_intelligence, :stat_power, :stat_speed, :stat_strength, :publisher_id, :alignment_id, :race_id
+  permit_params :name, :description, :price, :stat_combat, :stat_durability, :stat_intelligence, :stat_power, :stat_speed, :stat_strength, :publisher_id, :alignment_id, :race_id, :image
   remove_filter :image_attachment, :image_blob
   #
   # or
