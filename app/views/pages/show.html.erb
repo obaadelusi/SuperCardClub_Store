@@ -18,7 +18,7 @@
   <p class="text-success"><%= notice %></p>
 
   <% (@page.content).each_line do |line| %>
-  <p><%=line%></p>
+  <p><%=line.html_safe%></p>
   <% end %>
 </div>
 <% else render partial: 'shared/404' end%>
