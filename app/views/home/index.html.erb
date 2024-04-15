@@ -1,6 +1,21 @@
 <div class="container">
     <h1>Super Card Club Store</h1>
 
+    <div class="mx-auto home-form-wrapper">
+        <form action="/" method="GET">
+            <div class="input-group mb-3">
+                <input type="text" class="form-control" placeholder="Enter character name, publisher, or race..."
+                    id="search" name="search">
+                <select class="input-group-text" id="homesearchSelect" name="tag">
+                    <option value="characters" selected>by Characters</option>
+                    <option value="publishers">by Publishers</option>
+                    <option value="races">by Races</option>
+                </select>
+                <button type="submit" class="btn btn-primary btn-lg"><i class="bi bi-search"></i></button>
+            </div>
+        </form>
+    </div>
+
     <div id="<%= dom_id @character %>" class="card overflow-hidden" style="max-width: 540px;">
         <div class="row g-0">
             <div class="col-md-4 card-image-cover">

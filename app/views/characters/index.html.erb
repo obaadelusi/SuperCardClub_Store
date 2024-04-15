@@ -14,17 +14,25 @@
     <%= link_to "+ Add new card", new_character_path, :class => 'btn btn-success ms-auto' %>
   </div>
 
-  <div class="d-flex align-items-center gap-2 p-4">
-    <span class="h4">Filter by: </span>
-    <a href="/characters?filter=onSale" class="btn btn-outline-danger text-danger">
-      <i class="bi bi-currency-dollar"></i>
-      On Sale
-    </a>
-    <a href="/characters?filter=new" class="btn btn-outline-success text-success">
-      <i class="bi bi-stars"></i>
-      New
-    </a>
-    <a href="/characters" class="text-body-secondary rounded-circle"><i class="bi bi-x-lg"></i></a>
+  <div class="d-flex align-items-center flex-wrap gap-2 py-4">
+    <%= form_tag(characters_path, method: :get) do %>
+    <div class="input-group">
+      <input type="text" name="q" id="q" class="form-control" placeholder="Search characters...">
+      <button type="submit" class="btn btn-primary">Search</button>
+    </div>
+    <% end %>
+    <div class="ms-md-auto">
+      <span class="h4">Filter by: </span>
+      <a href="/characters?filter=onSale" class="btn btn-outline-danger text-danger">
+        <i class="bi bi-currency-dollar"></i>
+        On Sale
+      </a>
+      <a href="/characters?filter=new" class="btn btn-outline-success text-success">
+        <i class="bi bi-stars"></i>
+        New
+      </a>
+      <a href="/characters" class="text-body-secondary rounded-circle"><i class="bi bi-x-lg"></i></a>
+    </div>
   </div>
 
   <div class="alert alert-primary d-flex align-items-center gap-2" role="alert">

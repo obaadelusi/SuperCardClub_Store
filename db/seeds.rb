@@ -35,10 +35,12 @@ data = JSON.parse(response.read_body) # Convert JSON data into Ruby data.
 
 puts "Returned #{data.length()} super characters..."
 
+race_unknown = Race.find_by(name: 'Unknown')
+
 for c in data
   c_name = c["name"]
   c_fullname = c["biography"]["fullName"].strip.length==0 ? c_name : c["biography"]["fullName"]
-  c_desc = "Fullname: #{c_fullname} \nGender: #{c["appearance"]["gender"]} \nAliases: #{(c["biography"]["aliases"]).join(", ")} \nAlter egos: #{c["biography"]["alterEgos"]} \nPoB: #{c["biography"]["placeOfBirth"]} \nGroup: #{c["connections"]["groupAffiliation"]} \nBase: #{c["work"]["base"]} \nOccupation: #{c["work"]["occupation"]}"
+  c_desc = "Fullname: #{c_fullname} \nGender: #{c["appearance"]["gender"]} \nAliases: #{(c["biography"]["aliases"]).join(", ")} \nAlter egos: #{c["biography"]["alterEgos"]} \nPoB: #{c["biography"]["placeOfBirth"]} \nGroup: #{c["connections"]["groupAffiliation"]} \nBase: #{c["work"]["base"]} \nOccupation: #{c["work"]["occupation"]} \nRelatives: #{c["connections"]["relatives"]}"
   c_price = Faker::Number.decimal(l_digits: 3, r_digits: 2)
   c_combat = c["powerstats"]["combat"]
   c_durability = c["powerstats"]["durability"]
@@ -47,40 +49,50 @@ for c in data
   c_speed = c["powerstats"]["speed"]
   c_strength = c["powerstats"]["strength"]
   c_image = URI.open(c["images"]["md"])
-  rand = [0, 0, 0, 1, 0, 0, 1, 0, 0, 0]
-
+  rand = [0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0]
 
   publisher = Publisher.find_or_create_by!(name: c["biography"]["publisher"])
-  race = Race.find_or_create_by!(name: c["appearance"]["race"])
   alignment = Alignment.find_or_create_by!(name: c["biography"]["alignment"])
+  race = Race.find_or_create_by!(name: c["appearance"]["race"])
 
-  character = Character.find_or_create_by(name: c_name)
-  character.description = c_desc
-  character.price = c_price
-  character.on_sale = rand.sample
-  character.stat_combat = c_combat
-  character.stat_durability = c_durability
-  character.stat_intelligence = c_intel
-  character.stat_power = c_power
-  character.stat_speed = c_speed
-  character.stat_strength = c_strength
-  character.publisher = publisher
-  character.race = race
-  character.alignment = alignment
-  character.image.attach(io: c_image, filename: "img-#{character.name.gsub(" ", "-")}.jpg")
-  sleep(1)
+  character = Character.find_by(name: c_name)
+
+  if character.present?
+    character.description = c_desc
+    puts "--> #{character.name} aleady exists. Description updated."
+  else
+    character = Character.create(name: c_name)
+    character.description = c_desc
+    character.price = c_price
+    character.on_sale = rand.sample
+    character.stat_combat = c_combat
+    character.stat_durability = c_durability
+    character.stat_intelligence = c_intel
+    character.stat_power = c_power
+    character.stat_speed = c_speed
+    character.stat_strength = c_strength
+    character.publisher = publisher
+    character.alignment = alignment
+
+    race.name.present? ? character.race = race : character.race = race_unknown
+
+    character.image.attach(io: c_image, filename: "img-#{character.name.gsub(" ", "-")}.jpg")
+    sleep(1)
+
+    puts "# New: #{character.name} | on_sale: #{character.on_sale}"
+  end
 
   character.save
 
-  puts "Added: #{character.name} | on_sale: #{character.on_sale}"
 end
 
 # Add on_sale data to characters
 # characters = Character.all
 
 # for c in characters
-  # c_name = c["name"]
-  # url = URI("https://superhero-search.p.rapidapi.com/api/?hero=#{c_name}")
+  # ch = Character.find_by(name: "Robin")
+  # ch_name = ch["name"]
+  # url = URI("https://superhero-search.p.rapidapi.com/api/?hero=#{ch_name}")
 
   # http = Net::HTTP.new(url.host, url.port)
   # http.use_ssl = true
@@ -91,15 +103,19 @@ end
 
   # response = http.request(request)
   # d = JSON.parse(response.read_body) # Convert JSON data into Ruby data.
-  # pp d
+  # #pp d
 
-  # c_fullname = d["biography"]["fullName"].strip.length==0 ? c_name : d["biography"]["fullName"]
+  # c_fullname = d["biography"]["fullName"].strip.length==0 ? ch_name : d["biography"]["fullName"]
   # c_desc = "Fullname: #{c_fullname} \nGender: #{d["appearance"]["gender"]} \nAliases: #{(d["biography"]["aliases"]).join(", ")} \nAlter egos: #{d["biography"]["alterEgos"]} \nPoB: #{d["biography"]["placeOfBirth"]} \nFirst appearance: #{d["biography"]["firstAppearance"]} \nGroup: #{d["connections"]["groupAffiliation"]} \nBase: #{d["work"]["base"]} \nOccupation: #{d["work"]["occupation"]} \nRelatives: #{d["connections"]["relatives"]}"
-  # c.description = c_desc
+  # ch.description = c_desc
+
+  # ch_image = URI.open(d["images"]["md"])
+  # ch.image.attach(io: ch_image, filename: "img-#{ch.name.gsub(" ", "-")}.jpg")
+  # sleep(1)
 
   # rand = [0, 0, 0, 1, 0, 0, 1, 0, 0, 0]
-  # c.on_sale = rand.sample
+  # ch.on_sale = rand.sample
 
-  # puts "#{c.name} card on_sale: #{c.on_sale}"
-  # c.save
+  # puts "#{ch.name} card on_sale: #{ch.on_sale}"
+  # ch.save
 # end

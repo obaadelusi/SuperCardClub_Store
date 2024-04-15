@@ -10,7 +10,8 @@
   <div class="alert alert-primary d-flex align-items-center gap-2" role="alert">
     <i class="bi bi-info-circle-fill"></i>
     <div>
-      There are currently <code><%= @publishers.count %></code> publishers.
+      Found
+      <code><%= pluralize(@publishers.length, 'publisher') %></code><%= @search_params ? " with name <em>'#{@search_params}'</em>".html_safe : "" %>.
     </div>
   </div>
 

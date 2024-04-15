@@ -3,7 +3,12 @@ class AlignmentsController < ApplicationController
 
   # GET /alignments or /alignments.json
   def index
-    @alignments = Alignment.all
+    @search_params = session.delete(:search_params)
+    if @search_params
+      @alignments = Alignment.where("name LIKE ?", "%#{@search_params}%")
+    else
+      @alignments = Alignment.all
+    end
   end
 
   # GET /alignments/1 or /alignments/1.json

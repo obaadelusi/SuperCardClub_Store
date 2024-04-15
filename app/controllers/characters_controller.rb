@@ -4,24 +4,24 @@ class CharactersController < ApplicationController
   # GET /characters or /characters.json
   def index
     filter = params[:filter].present? ? params[:filter] : ''
-    is_query = params[:q].present?
+    is_query = session[:search_params].present? || params[:q].present?
 
     if is_query
-      keyword = "%#{params[:q]}%"
-      q_param = params[:q]
+      keyword = "%#{session[:search_params] || params[:q]}%"
       @characters = Character.where("name LIKE ? OR description LIKE ?", keyword, keyword).order(Arel.sql("CASE WHEN name LIKE '#{keyword}' THEN 0 ELSE 1 END"))
-      .page(params[:page]).per(6)
+      .page(params[:page]).per(9)
       @characters_count = @characters.count
+      session.delete(:search_params)
     else
       case filter
       when 'onSale'
-        @characters = Character.where(on_sale: filter).page(params[:page]).per(10)
+        @characters = Character.where(on_sale: filter).page(params[:page]).per(11)
         @characters_count = Character.where(on_sale: filter).count
       when 'new'
-        @characters = Character.where("created_at >= ?", 3.days.ago).page(params[:page]).per(10)
+        @characters = Character.where("created_at >= ?", 3.days.ago).page(params[:page]).per(11)
         @characters_count = Character.where("created_at >= ?", 3.days.ago).count
       else
-        @characters = Character.order("RANDOM()").page(params[:page]).per(12)
+        @characters = Character.order("RANDOM()").page(params[:page]).per(25)
         @characters_count = Character.order("RANDOM()").all.count
       end
     end

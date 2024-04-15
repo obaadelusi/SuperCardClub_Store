@@ -3,7 +3,12 @@ class PublishersController < ApplicationController
 
   # GET /publishers or /publishers.json
   def index
-    @publishers = Publisher.all
+    @search_params = session.delete(:search_params)
+    if @search_params
+      @publishers = Publisher.where("name LIKE ?", "%#{@search_params}%")
+    else
+      @publishers = Publisher.all
+    end
   end
 
   # GET /publishers/1 or /publishers/1.json

@@ -5,16 +5,19 @@
 /*****
   Variables
 *****/
-$clr-primary: #1A535C;
-// $font-display: "Merriweather", Georgia, serif;
-$font-display: "Jersey 10 Charted", sans-serif;
+:root {
+    --clr-primary: #1A535C;
+}
+
+$font-display: "Platypi", serif;
 $font-sans: "Work Sans", Roboto, sans-serif;
+$font-stylish: "Jersey 10", sans-serif;
 
 /*****
   Resets
 *****/
 body {
-    font-family: $font-sans;
+    font-family: $font-sans !important;
     min-height: 100vh;
     display: flex;
     flex-direction: column;
@@ -29,15 +32,14 @@ h3 {
 h4,
 h5,
 h6,
-p,
-li,
-strong,
-em {
+p {
     font-family: $font-sans;
 }
 
 a,
-span {
+span,
+button,
+input {
     font-family: inherit;
 }
 
@@ -57,6 +59,10 @@ a {
         text-decoration: none;
         color: #fff;
     }
+}
+
+.font-stylish {
+    font-family: $font-stylish;
 }
 
 /*****
@@ -146,8 +152,8 @@ a {
 *****/
 .btn {
     &-outline-primary {
-        border-color: $clr-primary;
-        color: $clr-primary;
+        border-color: var(--clr-primary);
+        color: var(--clr-primary);
     }
 
     &-reset,
@@ -159,4 +165,43 @@ a {
         box-shadow: none;
     }
 
+}
+
+/*****
+  Home Styling
+*****/
+.home-form-wrapper {
+    max-width: 680px;
+}
+
+.pagination {
+    align-items: center;
+    gap: 8px;
+
+    .page {
+        border: 1px solid lightblue;
+
+        a,
+        &.current {
+            display: block;
+            padding: 6px 12px;
+            text-decoration: none;
+        }
+
+        a:hover {
+            background-color: var(--clr-primary);
+            color: #fff;
+        }
+
+        &.current {
+            background-color: var(--clr-primary);
+            color: #fff;
+        }
+
+        &.gap {
+            display: block;
+            border: none;
+            align-self: baseline;
+        }
+    }
 }

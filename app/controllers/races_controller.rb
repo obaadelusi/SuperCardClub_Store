@@ -3,7 +3,12 @@ class RacesController < ApplicationController
 
   # GET /races or /races.json
   def index
-    @races = Race.all
+    @search_params = session.delete(:search_params)
+    if @search_params
+      @races = Race.where("name LIKE ?", "%#{@search_params}%")
+    else
+      @races = Race.all
+    end
   end
 
   # GET /races/1 or /races/1.json

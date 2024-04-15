@@ -9,7 +9,7 @@
     </div>
     <div class="col-md-8">
       <div class="card-body">
-        <h3 class="card-title"><%= character.name %></h3>
+        <h3 class="card-title font-stylish"><%= character.name %></h3>
         <p class="card-text"><%= character.description[0,70] %>...</p>
         <small class="text-body-secondary"><em>by</em> <%= character.publisher.name %></small>
       </div>
@@ -17,7 +17,7 @@
         <li class="list-group-item">Combat: <%= character.stat_combat %>, Intelligence:
           <%= character.stat_intelligence %>, Speed: <%= character.stat_speed %></li>
         <li class="list-group-item">
-          Price: $<%=character.price%>
+          <strong>Price:</strong> $<%=character.price%>
           <% if character.on_sale==true %>
           <div class="d-inline-block bg-danger text-light bg-opacity-75 rounded-circle"
             style="width:35px;height:35px;text-align:center;line-height:2;">

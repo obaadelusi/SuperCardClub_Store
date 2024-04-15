@@ -1,6 +1,6 @@
 <header class="page-header-radial-pattern">
   <small class="text-uppercase">Character Card</small>
-  <h1><%= @character.name %></h1>
+  <h1 class="font-stylish"><%= @character.name %></h1>
   <div class="d-flex align-items-center">
     <%= link_to "Edit this character", edit_character_path(@character) %> &ensp; /
     <%= button_to "Delete", @character, method: :delete, :class => 'btn-reset d-inline text-danger' %>
@@ -21,7 +21,7 @@
   <div class="row g-4 my-5" id="character">
     <div class="col-md-4">
       <% if @character.image.present? %>
-      <%= image_tag @character.image, :class => 'img-fluid rounded-start', alt: @character.name %>
+      <%= image_tag @character.image, :class => 'img-fluid', alt: @character.name %>
       <% else %>
       <%= image_tag("empty_image.jpg") %>
       <% end %>
@@ -30,7 +30,7 @@
     <div class="col-md-8">
       <span
         class="badge <%=@character.alignment.name=="good" ? "bg-success" : "bg-danger"%>"><%=@character.alignment.name=="good" ? "Hero" : "Villain"%></span>
-      <h2 class="position-relative"><%= @character.name %></h2>
+      <h2><%= @character.name %></h2>
 
       <p class="text-bg-light">
         <strong>Publisher:</strong>
@@ -42,69 +42,78 @@
         <%= link_to @character.race.name, @character.race %>
       </p>
 
-      <p>
-        <strong>Description:</strong>
-      <ul>
-        <% (@character.description).each_line do |line| %>
-        <li><%=line%></li>
+      <p id="price">
+        <strong>Price: </strong>$<span class="fs-3"><%=@character.price%></span>
+        <% if @character.on_sale==true %>
+        <span class="d-inline-block bg-danger text-light bg-opacity-75 rounded-circle"
+          style="width:36px;height:36px;text-align:center;line-height:2;">
+          <small style="font-weight:500;">sale!</small>
+        </span>
         <% end %>
-      </ul>
+      </p>
+    </div>
+  </div>
 
+  <div id="description" class="container my-5">
+    <h3 class="text-bg-secondary p-2">Description</h3>
+    <ul>
+      <% (@character.description).each_line do |line| %>
+      <li><%=line%></li>
+      <% end %>
+    </ul>
 
-      <div class="row g-1 mb-3">
-        <strong class="col-md-3">Combat:</strong>
-        <div class="progress col-md-9 ps-0" role="progressbar" aria-label="stat combat"
-          aria-valuenow="<%=@character.stat_combat%>" aria-valuemin="0" aria-valuemax="100">
-          <div class="progress-bar" style="width: <%=@character.stat_combat%>%"><%= @character.stat_combat %>%</div>
+    <div class="row g-1 mb-3">
+      <strong class="col-md-3">Combat:</strong>
+      <div class="progress col-md-9 ps-0" role="progressbar" aria-label="stat combat"
+        aria-valuenow="<%=@character.stat_combat%>" aria-valuemin="0" aria-valuemax="100">
+        <div class="progress-bar" style="width: <%=@character.stat_combat%>%"><%= @character.stat_combat %>%</div>
+      </div>
+    </div>
+
+    <div class="row g-1 mb-3">
+      <strong class="col-md-3">Durability:</strong>
+      <div class="progress col-md-9 ps-0" role="progressbar" aria-label="stat durability"
+        aria-valuenow="<%=@character.stat_durability%>" aria-valuemin="0" aria-valuemax="100">
+        <div class="progress-bar" style="width: <%=@character.stat_durability%>%"><%= @character.stat_durability %>%
         </div>
       </div>
+    </div>
 
-      <div class="row g-1 mb-3">
-        <strong class="col-md-3">Durability:</strong>
-        <div class="progress col-md-9 ps-0" role="progressbar" aria-label="stat durability"
-          aria-valuenow="<%=@character.stat_durability%>" aria-valuemin="0" aria-valuemax="100">
-          <div class="progress-bar" style="width: <%=@character.stat_durability%>%"><%= @character.stat_durability %>%
-          </div>
+    <div class="row g-1 mb-3">
+      <strong class="col-md-3">Intelligence:</strong>
+      <div class="progress col-md-9 ps-0" role="progressbar" aria-label="stat intelligence"
+        aria-valuenow="<%=@character.stat_intelligence%>" aria-valuemin="0" aria-valuemax="100">
+        <div class="progress-bar" style="width: <%=@character.stat_intelligence%>%">
+          <%= @character.stat_intelligence %>%
         </div>
       </div>
+    </div>
 
-      <div class="row g-1 mb-3">
-        <strong class="col-md-3">Intelligence:</strong>
-        <div class="progress col-md-9 ps-0" role="progressbar" aria-label="stat intelligence"
-          aria-valuenow="<%=@character.stat_intelligence%>" aria-valuemin="0" aria-valuemax="100">
-          <div class="progress-bar" style="width: <%=@character.stat_intelligence%>%">
-            <%= @character.stat_intelligence %>%
-          </div>
+    <div class="row g-1 mb-3">
+      <strong class="col-md-3">Power:</strong>
+      <div class="progress col-md-9 ps-0" role="progressbar" aria-label="stat power"
+        aria-valuenow="<%=@character.stat_power%>" aria-valuemin="0" aria-valuemax="100">
+        <div class="progress-bar" style="width: <%=@character.stat_power%>%"><%= @character.stat_power %>%
         </div>
       </div>
+    </div>
 
-      <div class="row g-1 mb-3">
-        <strong class="col-md-3">Power:</strong>
-        <div class="progress col-md-9 ps-0" role="progressbar" aria-label="stat power"
-          aria-valuenow="<%=@character.stat_power%>" aria-valuemin="0" aria-valuemax="100">
-          <div class="progress-bar" style="width: <%=@character.stat_power%>%"><%= @character.stat_power %>%
-          </div>
+    <div class="row g-1 mb-3">
+      <strong class="col-md-3">Speed:</strong>
+      <div class="progress col-md-9 ps-0" role="progressbar" aria-label="stat speed"
+        aria-valuenow="<%=@character.stat_speed%>" aria-valuemin="0" aria-valuemax="100">
+        <div class="progress-bar" style="width: <%=@character.stat_speed%>%"><%= @character.stat_speed %>%
         </div>
       </div>
+    </div>
 
-      <div class="row g-1 mb-3">
-        <strong class="col-md-3">Speed:</strong>
-        <div class="progress col-md-9 ps-0" role="progressbar" aria-label="stat speed"
-          aria-valuenow="<%=@character.stat_speed%>" aria-valuemin="0" aria-valuemax="100">
-          <div class="progress-bar" style="width: <%=@character.stat_speed%>%"><%= @character.stat_speed %>%
-          </div>
+    <div class="row g-1 mb-3">
+      <strong class="col-md-3">Strength:</strong>
+      <div class="progress col-md-9 ps-0" role="progressbar" aria-label="stat strength"
+        aria-valuenow="<%=@character.stat_strength%>" aria-valuemin="0" aria-valuemax="100">
+        <div class="progress-bar" style="width: <%=@character.stat_strength%>%"><%= @character.stat_strength %>%
         </div>
       </div>
-
-      <div class="row g-1 mb-3">
-        <strong class="col-md-3">Strength:</strong>
-        <div class="progress col-md-9 ps-0" role="progressbar" aria-label="stat strength"
-          aria-valuenow="<%=@character.stat_strength%>" aria-valuemin="0" aria-valuemax="100">
-          <div class="progress-bar" style="width: <%=@character.stat_strength%>%"><%= @character.stat_strength %>%
-          </div>
-        </div>
-      </div>
-
     </div>
   </div>
 </main>

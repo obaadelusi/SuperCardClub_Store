@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  devise_for :customers
   get 'home/index'
   get '/pages/:slug', to: 'pages#show', as: :page_by_slug
 
