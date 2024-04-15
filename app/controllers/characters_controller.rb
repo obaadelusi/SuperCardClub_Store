@@ -6,11 +6,14 @@ class CharactersController < ApplicationController
     filter = params[:filter].present? ? params[:filter] : ''
 
     if params[:filter]=='onSale'
-      @characters = Character.where(onSale: filter)
+      @characters = Character.where(onSale: filter).page(params[:page]).per(10)
+      @characters_count = Character.where(onSale: filter).count
     elsif params[:filter]=='new'
-      @characters = Character.where("created_at >= ?", 3.days.ago)
+      @characters = Character.where("created_at >= ?", 3.days.ago).page(params[:page]).per(10)
+      @characters_count = Character.where("created_at >= ?", 3.days.ago).count
     else
-      @characters = Character.order("RANDOM()").all
+      @characters = Character.order("RANDOM()").page(params[:page]).per(12)
+      @characters_count = Character.order("RANDOM()").all.count
     end
   end
 
