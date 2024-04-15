@@ -61,6 +61,12 @@ a {
     }
 }
 
+.list-style-none {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
 .font-stylish {
     font-family: $font-stylish;
 }
@@ -167,13 +173,25 @@ a {
 
 }
 
+
 /*****
-  Home Styling
+  Navigation
+*****/
+.topbar {
+    padding: 8px;
+    font-size: small;
+}
+
+/*****
+  Home styles
 *****/
 .home-form-wrapper {
     max-width: 680px;
 }
 
+/*****
+  Other styles
+*****/
 .pagination {
     align-items: center;
     gap: 8px;

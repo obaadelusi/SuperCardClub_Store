@@ -8,9 +8,7 @@
 </header>
 
 <main class="container flex-grow-1">
-  <p class="text-success"><%= notice %></p>
-
-  <div id="breadcrumbs" class="d-flex align-items-center gap-1 py-2 text-bg-light">
+  <div id="breadcrumbs" class="d-flex align-items-center gap-1 p-2 my-3">
     <%= link_to 'Home', root_path, :class => 'text-decoration-none' %> /
     <%= link_to "Characters", characters_path, :class => 'text-decoration-none' %>
     <i class="bi bi-arrow-right"></i>
@@ -18,7 +16,7 @@
     <%#= link_to @page.title, page_by_slug_url(slug: @page.slug) %>
   </div>
 
-  <div class="row g-4 my-5" id="character">
+  <div class="row g-4 my-2" id="character">
     <div class="col-md-4">
       <% if @character.image.present? %>
       <%= image_tag @character.image, :class => 'img-fluid', alt: @character.name %>

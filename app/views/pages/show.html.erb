@@ -13,10 +13,6 @@
     <%#= link_to @page.title, page_by_slug_url(slug: @page.slug) %>
   </div>
 
-
-
-  <p class="text-success"><%= notice %></p>
-
   <% (@page.content).each_line do |line| %>
   <p><%=line.html_safe%></p>
   <% end %>
