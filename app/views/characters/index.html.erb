@@ -31,11 +31,11 @@
     <i class="bi bi-info-circle"></i>
     <div>
       <% if params[:filter]=='onSale' %>
-      There are <%=@characters_count%> cards <span class="text-danger">on sale</span>
+      <%= pluralize(@characters_count, 'character card') %> <span class="text-danger">on sale</span>.
       <% elsif params[:filter]=='new' %>
-      <%=@characters_count%> character cards were recently added.
+      <%= pluralize(@characters_count, 'character card') %> <span class="text-success">were recently added</span>.
       <% else %>
-      There are <%=@characters_count%> character cards
+      <%= pluralize(@characters_count, 'character card') %> found.
       <% end %>
     </div>
   </div>

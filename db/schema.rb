@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_04_12_213012) do
+ActiveRecord::Schema[7.1].define(version: 2024_04_15_152822) do
 # Could not dump table "action_text_rich_texts" because of following StandardError
 #   Unknown type 'uuid' for column 'record_id'
 
@@ -89,7 +89,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_04_12_213012) do
     t.integer "race_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.boolean "onSale"
+    t.boolean "on_sale"
     t.index ["alignment_id"], name: "index_characters_on_alignment_id"
     t.index ["publisher_id"], name: "index_characters_on_publisher_id"
     t.index ["race_id"], name: "index_characters_on_race_id"

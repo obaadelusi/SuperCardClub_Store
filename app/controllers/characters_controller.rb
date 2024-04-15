@@ -4,16 +4,26 @@ class CharactersController < ApplicationController
   # GET /characters or /characters.json
   def index
     filter = params[:filter].present? ? params[:filter] : ''
+    is_query = params[:q].present?
 
-    if params[:filter]=='onSale'
-      @characters = Character.where(onSale: filter).page(params[:page]).per(10)
-      @characters_count = Character.where(onSale: filter).count
-    elsif params[:filter]=='new'
-      @characters = Character.where("created_at >= ?", 3.days.ago).page(params[:page]).per(10)
-      @characters_count = Character.where("created_at >= ?", 3.days.ago).count
+    if is_query
+      keyword = "%#{params[:q]}%"
+      q_param = params[:q]
+      @characters = Character.where("name LIKE ? OR description LIKE ?", keyword, keyword).order(Arel.sql("CASE WHEN name LIKE '#{keyword}' THEN 0 ELSE 1 END"))
+      .page(params[:page]).per(6)
+      @characters_count = @characters.count
     else
-      @characters = Character.order("RANDOM()").page(params[:page]).per(12)
-      @characters_count = Character.order("RANDOM()").all.count
+      case filter
+      when 'onSale'
+        @characters = Character.where(on_sale: filter).page(params[:page]).per(10)
+        @characters_count = Character.where(on_sale: filter).count
+      when 'new'
+        @characters = Character.where("created_at >= ?", 3.days.ago).page(params[:page]).per(10)
+        @characters_count = Character.where("created_at >= ?", 3.days.ago).count
+      else
+        @characters = Character.order("RANDOM()").page(params[:page]).per(12)
+        @characters_count = Character.order("RANDOM()").all.count
+      end
     end
   end
 
@@ -76,6 +86,6 @@ class CharactersController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def character_params
-      params.require(:character).permit(:name, :description, :price, :stat_combat, :stat_durability, :stat_intelligence, :stat_power, :stat_speed, :stat_strength, :image)
+      params.require(:character).permit(:name, :description, :on_sale, :price, :stat_combat, :stat_durability, :stat_intelligence, :stat_power, :stat_speed, :stat_strength, :image)
     end
 end

@@ -57,7 +57,7 @@ for c in data
   character = Character.find_or_create_by(name: c_name)
   character.description = c_desc
   character.price = c_price
-  character.onSale = rand.sample
+  character.on_sale = rand.sample
   character.stat_combat = c_combat
   character.stat_durability = c_durability
   character.stat_intelligence = c_intel
@@ -72,10 +72,10 @@ for c in data
 
   character.save
 
-  puts "Added: #{character.name} | onSale: #{character.onSale}"
+  puts "Added: #{character.name} | on_sale: #{character.on_sale}"
 end
 
-# Add onSale data to characters
+# Add on_sale data to characters
 # characters = Character.all
 
 # for c in characters
@@ -98,8 +98,8 @@ end
   # c.description = c_desc
 
   # rand = [0, 0, 0, 1, 0, 0, 1, 0, 0, 0]
-  # c.onSale = rand.sample
+  # c.on_sale = rand.sample
 
-  # puts "#{c.name} card onSale: #{c.onSale}"
+  # puts "#{c.name} card on_sale: #{c.on_sale}"
   # c.save
 # end
