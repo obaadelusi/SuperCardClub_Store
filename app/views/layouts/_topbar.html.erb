@@ -4,6 +4,7 @@
         <li>
             <i class="bi bi-person-circle"></i>
             <%= current_customer.email.split("@").first %>
+            <%= current_customer.first_name %>
         </li>
         <li>
             <%= form_with(url: "/customers/sign_out", method: "delete") do %>
