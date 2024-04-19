@@ -1,10 +1,6 @@
 <header class="page-header-radial-pattern">
   <small class="text-uppercase">Character Card</small>
   <h1 class="font-stylish"><%= @character.name %></h1>
-  <div class="d-flex align-items-center">
-    <%= link_to "Edit this character", edit_character_path(@character) %> &ensp; /
-    <%= button_to "Delete", @character, method: :delete, :class => 'btn-reset d-inline text-danger' %>
-  </div>
 </header>
 
 <main class="container flex-grow-1">
@@ -18,11 +14,27 @@
 
   <div class="row g-4 my-2" id="character">
     <div class="col-md-4">
-      <% if @character.image.present? %>
-      <%= image_tag @character.image, :class => 'img-fluid', alt: @character.name %>
-      <% else %>
-      <%= image_tag("empty_image.jpg") %>
-      <% end %>
+      <div class="product-card">
+        <div class="product-card-front">
+          <% if @character.image.present? %>
+          <%= image_tag @character.image, :class => 'img-fluid', alt: @character.name %>
+          <% else %>
+          <%= image_tag("empty_image.jpg") %>
+          <% end %>
+        </div>
+        <div class="product-card-back">
+          <h2><%=@character.name%></h2>
+          <p>Race: <%=@character.race.name%></p>
+          <em>by <%=@character.publisher.name%></em>
+          <br>
+          <p>Combat: <%=@character.stat_combat%></p>
+          <p>Durability: <%=@character.stat_durability%></p>
+          <p>Intelligence: <%=@character.stat_intelligence%></p>
+          <p>Power: <%=@character.stat_power%></p>
+          <p>Speed: <%=@character.stat_speed%></p>
+          <p>Strength: <%=@character.stat_strength%></p>
+        </div>
+      </div>
     </div>
 
     <div class="col-md-8">

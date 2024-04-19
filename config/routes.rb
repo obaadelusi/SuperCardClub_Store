@@ -2,7 +2,10 @@ Rails.application.routes.draw do
   get 'home/index'
   get '/pages/:slug', to: 'pages#show', as: :page_by_slug
 
-  devise_for :customers, controllers: { sessions: 'customers/sessions'}
+  devise_for :customers, controllers: {
+    sessions: 'customers/sessions',
+    registrations: 'customers/registrations'
+  }
   devise_for :admin_users, ActiveAdmin::Devise.config
   ActiveAdmin.routes(self)
 

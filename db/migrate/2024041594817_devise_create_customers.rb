@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class DeviseCreateCustomers < ActiveRecord::Migration[7.1]
-  drop_table :customers
+  #drop_table :customers
 
   def change
     create_table :customers do |t|

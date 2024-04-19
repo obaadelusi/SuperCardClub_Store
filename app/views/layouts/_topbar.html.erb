@@ -1,10 +1,24 @@
-<div class="w-100 text-bg-light d-flex topbar">
-    <ul class="d-flex align-items-center gap-2 ms-auto list-style-none">
+<div class="w-100 text-bg-dark d-flex topbar">
+    <ul class="d-flex align-items-center ms-auto gap-2 list-style-none">
         <% if customer_signed_in? %>
         <li>
-            <i class="bi bi-person-circle"></i>
-            <%= current_customer.email.split("@").first %>
-            <%= current_customer.first_name %>
+            <div class="dropdown">
+                <button class="btn btn-sm text-bg-dark dropdown-toggle" data-bs-toggle="dropdown">
+                    <i class="bi bi-info-circle"></i>
+                    Hello,
+                    <%= current_customer.first_name.present? ? current_customer.first_name : current_customer.email.split("@").first %>
+                </button>
+                <ul class="dropdown-menu">
+                    <li><a href="/customers/edit" class="dropdown-item">
+                            <i class="bi bi-person-circle"></i>
+                            Account
+                        </a></li>
+                    <li><a href="/customers/orders" class="dropdown-item">
+                            <i class="bi bi-box-seam-fill"></i>
+                            Orders
+                        </a></li>
+                </ul>
+            </div>
         </li>
         <li>
             <%= form_with(url: "/customers/sign_out", method: "delete") do %>
@@ -12,8 +26,8 @@
             <% end %>
         </li>
         <% else %>
-        <li><a href="/customers/sign_in" class="text-dark">Sign In</a></li>
-        <li> / <a href="/customers/sign_up" class="text-dark">Sign Up</a></li>
+        <li><a href="/customers/sign_in" class="text-light">Sign In</a></li>
+        <li> / <a href="/customers/sign_up" class="text-light">Sign Up</a></li>
         <% end %>
     </ul>
 </div>
