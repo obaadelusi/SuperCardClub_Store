@@ -15,6 +15,11 @@ Rails.application.routes.draw do
   resources :races
   resources :alignments
   resources :publishers
+
+  resources :cart, only: [:index, :create, :destroy]
+  post '/update_cart_item', to: 'cart_controller#update_cart_item', as: 'update_cart_item'
+
+
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.

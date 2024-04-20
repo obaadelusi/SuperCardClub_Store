@@ -26,8 +26,8 @@
             <% end %>
         </li>
         <% else %>
-        <li><a href="/customers/sign_in" class="text-light">Sign In</a></li>
-        <li> / <a href="/customers/sign_up" class="text-light">Sign Up</a></li>
+        <li><%=link_to 'Sign In', new_customer_session_path, :class=>"text-light"%></li> /
+        <li><%=link_to 'Sign Up', new_customer_registration_path, :class=>"text-light"%></li>
         <% end %>
     </ul>
 </div>
