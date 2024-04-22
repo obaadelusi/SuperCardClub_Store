@@ -17,7 +17,7 @@ Rails.application.routes.draw do
   resources :publishers
 
   resources :cart, only: [:index, :create, :destroy]
-  post '/update_cart_item', to: 'cart_controller#update_cart_item', as: 'update_cart_item'
+  post '/update_cart_item', to: 'cart#update_cart_item', as: 'update_cart_item'
 
 
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html

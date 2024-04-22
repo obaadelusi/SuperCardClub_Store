@@ -61,10 +61,10 @@
         </span>
         <% end %>
       </p>
-      <% if cart.include?(@character) %>
+      <% if cart.any? { |c| c['character_id'] == @character.id } %>
       <div class="d-flex gap-1 align-items-center mb-3">
         <span class="text-secondary">You have
-          <%=pluralize((session[:cart].find{ |p| p['character_id']==@character.id })['quantity'], "card")%> in
+          <%=pluralize((cart.find{ |c| c['character_id']==@character.id })['quantity'], "card")%> in
           cart.</span>
         <%= link_to "Go to cart", cart_index_path%>
       </div>
