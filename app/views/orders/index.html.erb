@@ -1,0 +1,62 @@
+<div class="page-header-bg-light">
+    <h1>Your orders</h1>
+    <p class="text-uppercase"><%=current_customer.first_name || current_customer.email %></p>
+</div>
+
+<main class="container">
+    <div class="d-flex flex-wrap gap-2">
+        <% @orders.each do |o| %>
+        <div class="card" id="<%= dom_id o %>" style="max-width: 420px;">
+            <div class="p-3">
+                <h3>Order Invoice #<%= o.id %></h3>
+                <p>Date: <%= o.created_at.strftime('%a, %b %d %Y, %I:%M%p') %></p>
+                <p>Status: <span
+                        class="badge <%=o.status=='new' ? 'bg-success' : 'bg-secondary' %>"><%= o.status.capitalize %></span>
+                </p>
+                <p class="text-uppercase"><b><%= pluralize(o.order_items.size, 'item') %></b></p>
+                <ul class="list-style-none">
+                    <% o.order_items.each do |item| %>
+                    <li>
+                        <span class="badge bg-secondary bg-opacity-50 fw-normal">card</span>
+                        <%=item.character.name%> (x<%=item.quantity%>)
+                        <span class="float-end">$<%=item.price%></span>
+                    </li>
+                    <% end %>
+                </ul>
+                <hr>
+                <p>SUBTOTAL:
+                    <span class="float-end">$<%= "%.2f" % [1000.51] %></span>
+                </p>
+
+                <% total = 0 %>
+                <ul class="list-style-none">
+                    <% if o.gst.present? %>
+                    <li>GST <%="%.2f" % [o.gst * 100] %>%:
+                        <span class="float-end">$<%= "%.2f" % [o.gst * 1000.51]%></span>
+                    </li>
+                    <% total+=o.gst * 1000.51 end %>
+
+                    <% if o.pst.present? %>
+                    <li>PST <%="%.2f" % [o.pst * 100] %>%:
+                        <span class="float-end">$<%= "%.2f" % [o.pst * 1000.51]%></span>
+                    </li>
+                    <% total+=o.pst * 1000.51 end %>
+
+                    <% if o.hst.present? %>
+                    <li>HST <%="%.2f" % [o.hst * 100] %>%:
+                        <span class="float-end">$<%= "%.2f" %  [o.hst * 1000.51]%></span>
+                    </li>
+                    <% total+=o.hst * 1000.51 end %>
+                </ul>
+
+                <hr>
+                <p>TOTAL:
+                    <b class="float-end">$<%= "%.2f" % [total] %></b>
+                </p>
+
+                <%#= link_to item.character.name, character_path(item.character) %>
+            </div>
+        </div>
+        <% end %>
+    </div>
+</main>

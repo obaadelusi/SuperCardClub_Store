@@ -16,6 +16,9 @@ Rails.application.routes.draw do
   resources :alignments
   resources :publishers
 
+  resources :checkout, only: [:index, :create]
+  resources :orders, only: [:index, :create]
+
   resources :cart, only: [:index, :create, :destroy]
   post '/update_cart_item', to: 'cart#update_cart_item', as: 'update_cart_item'
 

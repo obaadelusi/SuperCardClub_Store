@@ -1,5 +1,5 @@
 <main id="cart_page">
-    <header class="page-header-bg-light" style="height: 120px;">
+    <header class="page-header-bg-light">
         <h1>Cart</h1>
     </header>
     <div class="container">
@@ -27,7 +27,11 @@
                             <b class="float-end">$<%= cart_invoice['subtotal'] %></b>
                         </p>
                         <p>Shipping: <b class="float-end">TBD</b></p>
-                        <a href="#" class="btn btn-success btn-stretch">GO TO CHECKOUT</a>
+
+                        <% if !cart.empty? %>
+                        <a href="<%= checkout_index_url %>" class="btn btn-primary btn-stretch">GO TO CHECKOUT</a>
+                        <% end %>
+
 
                     </div>
                 </div>

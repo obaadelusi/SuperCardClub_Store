@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_04_19_015923) do
+ActiveRecord::Schema[7.1].define(version: 2024_04_22_205427) do
 # Could not dump table "action_text_rich_texts" because of following StandardError
 #   Unknown type 'uuid' for column 'record_id'
 
@@ -120,6 +120,28 @@ ActiveRecord::Schema[7.1].define(version: 2024_04_19_015923) do
     t.index ["reset_password_token"], name: "index_customers_on_reset_password_token", unique: true
   end
 
+  create_table "order_items", force: :cascade do |t|
+    t.integer "order_id", null: false
+    t.integer "character_id", null: false
+    t.integer "quantity"
+    t.decimal "price"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["character_id"], name: "index_order_items_on_character_id"
+    t.index ["order_id"], name: "index_order_items_on_order_id"
+  end
+
+  create_table "orders", force: :cascade do |t|
+    t.integer "customer_id", null: false
+    t.string "status"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.decimal "hst"
+    t.decimal "gst"
+    t.decimal "pst"
+    t.index ["customer_id"], name: "index_orders_on_customer_id"
+  end
+
   create_table "pages", force: :cascade do |t|
     t.string "title"
     t.text "content"
@@ -135,6 +157,9 @@ ActiveRecord::Schema[7.1].define(version: 2024_04_19_015923) do
     t.string "country"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.decimal "hst"
+    t.decimal "gst"
+    t.decimal "pst"
   end
 
   create_table "publishers", force: :cascade do |t|
@@ -155,4 +180,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_04_19_015923) do
   add_foreign_key "characters", "publishers"
   add_foreign_key "characters", "races"
   add_foreign_key "customers", "provinces"
+  add_foreign_key "order_items", "characters"
+  add_foreign_key "order_items", "orders"
+  add_foreign_key "orders", "customers"
 end

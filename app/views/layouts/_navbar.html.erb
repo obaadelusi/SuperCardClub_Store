@@ -30,6 +30,11 @@
                 <li class="nav-item">
                     <a class="nav-link" href="/pages/contact">Contact</a>
                 </li>
+                <% if current_customer.present? %>
+                <li class="nav-item">
+                    <a class="nav-link" href="<%= orders_url %>">Orders</a>
+                </li>
+                <% end %>
                 <li class="nav-item">
                     <a href="/cart" class="nav-link">
                         <i class="bi bi-cart-fill"></i>

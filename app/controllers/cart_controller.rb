@@ -8,7 +8,7 @@ class CartController < ApplicationController
     end
 
     # Update cart total
-    session[:cart_invoice]['subtotal'] = get_cart_total
+    session[:cart_invoice]['subtotal'] = get_cart_subtotal
 
     @characters = Character.find(character_ids)
   end
@@ -77,13 +77,13 @@ class CartController < ApplicationController
     @character = Character.find(params[:character_id])
   end
 
-  def get_cart_total
-    cart_total = 0
+  def get_cart_subtotal
+    subtotal = 0
     for item in session[:cart]
       item_subtotal = item['price'].to_f * item['quantity'].to_f
-      cart_total += item_subtotal
+      subtotal += item_subtotal
     end
 
-    cart_total
+    subtotal
   end
 end

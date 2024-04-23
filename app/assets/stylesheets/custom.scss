@@ -27,6 +27,7 @@ $grey-200: #e2e2e7;
 $grey-300: #ccc;
 $grey-400: #666;
 $grey-500: #555;
+$grey-900: #222;
 
 :root {
     --hue: 238;
@@ -43,7 +44,7 @@ $primary-300: hsl($primary-hue, 80%, 85%);
 $primary-400: hsl($primary-hue, 80%, 75%);
 $primary-500: hsl($primary-hue, 80%, 64%);
 $primary-clr: hsl($primary-hue, 80%, 30%);
-$primary-900: hsl($primary-hue, 80%, 25%);
+$primary-900: hsl($primary-hue, 80%, 15%);
 
 $sec-hue: var(--sec-hue);
 $sec-clr: hsl($sec-hue, 98%, 53%);
@@ -164,9 +165,23 @@ a {
 
     &-bg-light {
         @extend .page-header;
+        height: 160px;
 
         &::after {
             background-color: #f5f5f7;
+        }
+    }
+
+    &-bg-dark {
+        @extend .page-header;
+        height: 160px;
+
+        * {
+            color: $text-white;
+        }
+
+        &::after {
+            background-color: $grey-900;
         }
     }
 

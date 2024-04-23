@@ -1,0 +1,154 @@
+<header class="page-header-bg-dark">
+    <h1>Checkout</h1>
+</header>
+
+<main class="container mb-5">
+    <% if current_customer.present? %>
+    <%= form_for(current_customer, url: checkout_index_path, html: { method: :post, class: 'row g-2' }) do |f| %>
+    <div class="col-md-7 card bg-light p-4">
+        <h3 class="mb-4">Billing Address</h3>
+
+        <span>Name</span>
+        <div class="input-group mb-3">
+            <%= f.label :first, :class=>'input-group-text' %>
+            <%= f.text_field :first_name, autocomplete: "given-name", :class=>'form-control' %>
+            <%= f.label :last, :class=>'input-group-text' %>
+            <%= f.text_field :last_name, autocomplete: "family-name", :class=>'form-control' %>
+        </div>
+
+        <div class="mb-3">
+            <%= f.label :email %><br />
+            <%= f.email_field :email, autocomplete: "email", :class=>'form-control' %>
+        </div>
+
+        <div class="mb-3">
+            <%= f.label :street, 'Address' %>
+            <%= f.text_field :street, :class=>'form-control' %>
+        </div>
+
+        <div class="mb-3">
+            <%= f.label :city %>
+            <%= f.text_field :city, class: 'form-control' %>
+        </div>
+
+        <div class="mb-3">
+            <%= f.label :province_id, 'Province' %>
+            <div class="input-group">
+                <%= f.select :province_id, [current_customer.province.name], {}, { class: 'form-select', readonly: 'true' } %>
+                <%= f.label :country, :class=>'input-group-text' %>
+                <%= f.select :country, ["Canada"], {}, { class: 'form-select'} %>
+            </div>
+            <small class="d-block text-secondary">Update province in your account</small>
+        </div>
+
+        <div class="mb-3">
+            <%= f.label :postal_code %>
+            <%= f.text_field :postal_code, autocomplete: "postal-code", :class=>'form-control' %>
+        </div>
+
+        <hr>
+
+        <h3>Payment</h3>
+
+        <div class="mb-3">
+            <%= f.label 'cardname', 'Name on card' %>
+            <input type="text" name="cardname" id="cardname" class="form-control">
+        </div>
+
+        <div class="mb-3">
+            <%= f.label 'cardnumber', 'Credit card number' %>
+            <input type="text" name="cardnumber" id="cardnumber" class="form-control">
+        </div>
+
+        <div class="mb-3">
+            <%= f.label 'expmonth', 'Expiry date' %>
+            <div class="input-group">
+                <%= f.label 'Month', :class=>'input-group-text' %>
+                <input type="text" name="expmonth" id="expmonth" class="form-control">
+                <%= f.label 'Year', :class=>'input-group-text' %>
+                <input type="text" name="expyear" id="expyear" class="form-control">
+            </div>
+        </div>
+
+        <div class="mb-3">
+            <%= f.label 'cvv', 'CVV' %>
+            <input type="text" name="cvv" id="cvv" class="form-control">
+        </div>
+
+        <div class="actions">
+            <%= f.submit "Continue to checkout", :class=>'btn btn-success btn-stretch' %>
+        </div>
+    </div>
+
+    <div class="col-md-1"></div>
+
+    <div class="col-md-4 card bg-light p-4">
+        <h3>Summary</h3>
+        <p><b><%= pluralize(cart.size, 'ITEM') %></b></p>
+        <ul class="list-style-none">
+            <% cart.each_with_index do |item, i| %>
+            <li>
+                <span class="badge bg-secondary fw-normal">card</span>
+                <%=item['name']%> (x<%=item['quantity']%>)
+                <span class="float-end">$<%=item['price']%></span>
+            </li>
+            <% end %>
+
+        </ul>
+        <hr>
+        <p>SUBTOTAL:
+            <span class="float-end">$<%= "%.2f" % [cart_invoice['subtotal']] %></span>
+        </p>
+        <p>Shipping: <b class="float-end">FREE</b></p>
+
+        <% total = cart_invoice['subtotal'] %>
+        <ul class="list-style-none">
+            <% @provinces_tax_rates.each do |p| %>
+            <% if current_customer.province_id == p['id'] %>
+
+            <% if p['gst'].present? %>
+            <li>GST <%="%.2f" % [p['gst'] * 100] %>%:
+                <span class="float-end">$<%= "%.2f" % [p['gst'] * cart_invoice['subtotal']]%></span>
+            </li>
+            <% total+=p['gst'] * cart_invoice['subtotal'] end %>
+
+            <% if p['pst'].present? %>
+            <li>PST <%="%.2f" % [p['pst'] * 100] %>%:
+                <span class="float-end">$<%= "%.2f" % [p['pst'] * cart_invoice['subtotal']]%></span>
+            </li>
+            <% total+=p['pst'] * cart_invoice['subtotal'] end %>
+
+            <% if p['hst'].present? %>
+            <li>HST <%="%.2f" % [p['hst'] * 100] %>%:
+                <span class="float-end">$<%= "%.2f" %  [p['hst'] * cart_invoice['subtotal']]%></span>
+            </li>
+            <% total+=p['hst'] * cart_invoice['subtotal'] end %>
+
+            <% end %>
+            <% end %>
+        </ul>
+
+        <hr>
+        <p>TOTAL:
+            <b class="float-end">$<%= "%.2f" % [total] %></b>
+        </p>
+
+        <div class="actions">
+            <%= f.submit "Continue to checkout", :class=>'btn btn-success btn-stretch' %>
+        </div>
+
+        <div class="my-3">
+            <span>Pay with: </span>
+            <div class="d-flex align-items-center gap-3">
+                <i class="bi bi-credit-card fs-3" style="color: brown;"></i>
+                <i class="bi bi-stripe fs-3" style="color: purple;"></i>
+                <i class="bi bi-paypal fs-3" style="color: navy;"></i>
+            </div>
+        </div>
+    </div>
+    <% end %>
+    <% else %>
+    <%= render partial: 'checkout/new_user_form' %>
+    <% end %>
+
+</main>

@@ -5,6 +5,8 @@ class Character < ApplicationRecord
   belongs_to :race
   belongs_to :alignment
 
+  has_many :order_items #revisit this association
+
   has_one_attached :image
 
   def self.ransackable_attributes(auth_object = nil)
@@ -12,6 +14,6 @@ class Character < ApplicationRecord
   end
 
   def self.ransackable_associations(auth_object = nil)
-    ["alignment", "publisher", "race", "image_attachment", "image_blob"]
+    ["alignment", "publisher", "race", "image_attachment", "image_blob", "order_items"]
   end
 end

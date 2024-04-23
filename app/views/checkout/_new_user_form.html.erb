@@ -1,0 +1,77 @@
+<%#= form_for(:current_customer, url: checkout_index_url, html: { method: :post, class: 'row g-2' }) do |f| %>
+<%= form_for(:customer, url: customer_registration_path, html: { method: :post, class: 'row g-2' }) do |f| %>
+<input type="hidden" name="referrer" value="checkout_page">
+<div class="col-md-7 card bg-light p-4">
+    <h3 class="mb-4">Create your account</h3>
+
+    <div class="alert alert-primary">New User: Create your account to checkout</div>
+
+    <span>Name</span>
+    <div class="input-group mb-3">
+        <%= f.label :first, :class=>'input-group-text' %>
+        <%= f.text_field :first_name, autocomplete: "given-name", :class=>'form-control' %>
+        <%= f.label :last, :class=>'input-group-text' %>
+        <%= f.text_field :last_name, autocomplete: "family-name", :class=>'form-control' %>
+    </div>
+
+    <div class="mb-3">
+        <%= f.label :email %><br />
+        <%= f.email_field :email, autocomplete: "email", :class=>'form-control' %>
+    </div>
+
+    <div class="mb-3">
+        <%= f.label :street, 'Address' %>
+        <%= f.text_field :street, autocomplete: "address", :class=>'form-control' %>
+    </div>
+
+    <div class="mb-3">
+        <%= f.label :city %>
+        <%= f.text_field :city, autocomplete: "home city", class: 'form-control' %>
+    </div>
+
+    <%= f.label :province_id, 'Province' %>
+    <div class="input-group mb-3">
+        <%= f.select :province_id, @provinces, {}, { class: 'form-select' } %>
+        <%= f.label :country, :class=>'input-group-text' %>
+        <%= f.select :country, ["Canada"], {}, { class: 'form-select'} %>
+    </div>
+
+    <div class="mb-3">
+        <%= f.label :postal_code %>
+        <%= f.text_field :postal_code, autocomplete: "postal-code", :class=>'form-control' %>
+    </div>
+
+    <hr>
+
+    <div class="mb-3">
+        <%= f.label :password %>
+        <% if @minimum_password_length %>
+        <em>(<%= @minimum_password_length %> characters minimum)</em>
+        <% end %><br />
+        <%= f.password_field :password, autocomplete: "new-password", :class=>'form-control' %>
+    </div>
+
+    <div class="mb-3">
+        <%= f.label :password_confirmation %><br />
+        <%= f.password_field :password_confirmation, autocomplete: "new-password", :class=>'form-control' %>
+    </div>
+
+    <div class="actions">
+        <%= f.submit "Create account to continue", :class=>'btn btn-primary btn-stretch btn-disabled' %>
+    </div>
+
+</div>
+<div class="col-md-1"></div>
+<div class="col-md-4 card bg-light p-4">
+    <h3>Cart</h3>
+    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatibus possimus placeat dolorem
+        voluptatem, iusto fugit praesentium ea quam nihil quaerat? Saepe quos porro laborum eum cupiditate.
+        Sapiente illum praesentium tenetur!</p>
+
+    <h3>Payment</h3>
+
+    <div class="actions">
+        <%= f.submit "Continue to checkout", :class=>'btn btn-secondary btn-stretch btn-disabled', :disabled=>'true' %>
+    </div>
+</div>
+<% end %>
