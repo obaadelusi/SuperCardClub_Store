@@ -5,53 +5,54 @@
 
 <main class="container">
     <div class="d-flex flex-wrap gap-2">
-        <% @orders.each do |o| %>
-        <div class="card" id="<%= dom_id o %>" style="max-width: 420px;">
+        <% @orders.each_with_index do |o, i| %>
+        <div class="card w-100" id="<%= dom_id o %>" style="max-width: 420px;">
             <div class="p-3">
                 <h3>Order Invoice #<%= o.id %></h3>
                 <p>Date: <%= o.created_at.strftime('%a, %b %d %Y, %I:%M%p') %></p>
                 <p>Status: <span
-                        class="badge <%=o.status=='new' ? 'bg-success' : 'bg-secondary' %>"><%= o.status.capitalize %></span>
+                        class="badge <%=o.status=='new' ? 'bg-success' : 'bg-dark' %>"><%= o.status.capitalize %></span>
                 </p>
-                <p class="text-uppercase"><b><%= pluralize(o.order_items.size, 'item') %></b></p>
+                <p class="text-uppercase"><b><%= pluralize(o.order_items.size, 'item') %></b> <span
+                        class="float-end">Totals</span></p>
                 <ul class="list-style-none">
                     <% o.order_items.each do |item| %>
                     <li>
-                        <span class="badge bg-secondary bg-opacity-50 fw-normal">card</span>
-                        <%=item.character.name%> (x<%=item.quantity%>)
-                        <span class="float-end">$<%=item.price%></span>
+                        <span class="badge bg-secondary fw-normal">x<%=item.quantity%></span>
+                        <%=item.character.name%> &ensp; $<%=item.price%>
+                        <span class="float-end">$<%="%.2f" % [item.price * item.quantity]%></span>
                     </li>
                     <% end %>
                 </ul>
                 <hr>
                 <p>SUBTOTAL:
-                    <span class="float-end">$<%= "%.2f" % [1000.51] %></span>
+                    <span class="float-end">$<%= "%.2f" % [@subtotals[i]] %></span>
                 </p>
 
                 <% total = 0 %>
                 <ul class="list-style-none">
                     <% if o.gst.present? %>
                     <li>GST <%="%.2f" % [o.gst * 100] %>%:
-                        <span class="float-end">$<%= "%.2f" % [o.gst * 1000.51]%></span>
+                        <span class="float-end">$<%= "%.2f" % [o.gst * @subtotals[i]]%></span>
                     </li>
-                    <% total+=o.gst * 1000.51 end %>
+                    <% end %>
 
                     <% if o.pst.present? %>
                     <li>PST <%="%.2f" % [o.pst * 100] %>%:
-                        <span class="float-end">$<%= "%.2f" % [o.pst * 1000.51]%></span>
+                        <span class="float-end">$<%= "%.2f" % [o.pst * @subtotals[i]]%></span>
                     </li>
-                    <% total+=o.pst * 1000.51 end %>
+                    <% end %>
 
                     <% if o.hst.present? %>
                     <li>HST <%="%.2f" % [o.hst * 100] %>%:
-                        <span class="float-end">$<%= "%.2f" %  [o.hst * 1000.51]%></span>
+                        <span class="float-end">$<%= "%.2f" %  [o.hst * @subtotals[i]]%></span>
                     </li>
-                    <% total+=o.hst * 1000.51 end %>
+                    <% end %>
                 </ul>
 
                 <hr>
                 <p>TOTAL:
-                    <b class="float-end">$<%= "%.2f" % [total] %></b>
+                    <b class="float-end">$<%= "%.2f" % [o.grand_total || @totals[i]] %></b>
                 </p>
 
                 <%#= link_to item.character.name, character_path(item.character) %>

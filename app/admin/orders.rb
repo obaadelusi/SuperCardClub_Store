@@ -5,7 +5,7 @@ ActiveAdmin.register Order do
   #
   # Uncomment all parameters which should be permitted for assignment
   #
-  permit_params :customer_id, :pst, :gst, :hst, :status, :order_item_id
+  permit_params :customer_id, :pst, :gst, :hst, :status, :grand_total, :order_items
   #
   # or
   #
@@ -21,7 +21,23 @@ ActiveAdmin.register Order do
     column :customer
     column :status
     column :order_items
+    column :grand_total
+    column :pst
     actions
+  end
+
+  show do
+    attributes_table do
+      row :customer
+      row :status
+      row :order_items
+      row :hst
+      row :gst
+      row :pst
+      row :created_at
+      row :updated_at
+    end
+    active_admin_comments_for(resource)
   end
 
   form do |f|
@@ -32,6 +48,7 @@ ActiveAdmin.register Order do
       f.input :hst, :label=>'HST'
       f.input :gst, :label=>'GST'
       f.input :pst, :label=>'PST'
+      f.input :grand_total, :as => :string, :input_html => { :readonly => true }
     end
     f.actions
   end

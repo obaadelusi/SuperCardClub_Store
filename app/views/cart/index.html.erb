@@ -24,7 +24,7 @@
 
                         <p class="m-0">ITEMS: <b class="float-end"><%=cart.size%></b></p>
                         <p>SUBTOTAL:
-                            <b class="float-end">$<%= cart_invoice['subtotal'] %></b>
+                            <b class="float-end">$<%= "%.2f" % [cart_invoice['subtotal']] %></b>
                         </p>
                         <p>Shipping: <b class="float-end">TBD</b></p>
 
