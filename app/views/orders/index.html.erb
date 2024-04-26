@@ -11,6 +11,12 @@
         <span class="text-secondary">Orders</span>
     </div>
 
+    <% if @orders.empty? %>
+    <div class="card">
+        <div class="card-body p-5 m-auto"> You have no orders yet. <%= link_to 'Go to store', characters_path %></div>
+    </div>
+    <% end %>
+
     <div class="d-flex flex-wrap gap-2">
         <% @orders.each_with_index do |o, i| %>
         <div class="card w-100" id="<%= dom_id o %>" style="max-width: 420px;">

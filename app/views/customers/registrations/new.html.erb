@@ -9,6 +9,10 @@
       <%= f.email_field :email, autofocus: true, autocomplete: "email", :class=>'form-control' %>
     </div>
     <div class="mb-3">
+      <%= f.label :province %>
+      <%= f.select :province_id, provinces, {}, { class: 'form-select'} %>
+    </div>
+    <div class="mb-3">
       <%= f.label :password %>
       <% if @minimum_password_length %>
       <em>(<%= @minimum_password_length %> characters minimum)</em>

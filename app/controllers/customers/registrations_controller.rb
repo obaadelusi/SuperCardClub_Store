@@ -3,6 +3,7 @@
 class Customers::RegistrationsController < Devise::RegistrationsController
   before_action :configure_sign_up_params, only: [:create]
   before_action :configure_account_update_params, only: [:update]
+  helper_method :provinces
 
   # GET /resource/sign_up
   # def new
@@ -63,4 +64,9 @@ class Customers::RegistrationsController < Devise::RegistrationsController
   # def after_inactive_sign_up_path_for(resource)
   #   super(resource)
   # end
+
+  private
+  def provinces
+    Province.all.map { |p| [p.name, p.id] }
+  end
 end
