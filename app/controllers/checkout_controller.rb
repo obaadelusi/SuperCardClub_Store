@@ -31,9 +31,6 @@ class CheckoutController < ApplicationController
       hst: province.hst,
     )
 
-    # used later on payment success
-    session[:last_order_id] = order.id
-
     # for each item in cart
     # 1. update line items for stripe
     # 2. make grand_total
@@ -144,6 +141,26 @@ class CheckoutController < ApplicationController
 
   # on payment success
   def success
+    @session = Stripe::Checkout::Session.retrieve(params[:session_id])
+    @payment_intent = Stripe::PaymentIntent.retrieve(@session.payment_intent)
+
+    order_id = @session.metadata.order_id
+    last_order = Order.find(order_id)
+
+    if last_order.nil?
+      redirect_to cart_index_path
+      return
+    end
+
+    # pp @payment_intent
+
+    last_order.status = "paid"
+    last_order.stripe_payment_id = @session.id
+    last_order.save
+
+    session.delete(:cart)
+    session.delete(:cart_invoice)
+
     redirect_to orders_path
   end
 
