@@ -10,6 +10,8 @@ class HomeController < ApplicationController
     else
       offset = rand(1...Character.count)
       @character = Character.offset(offset).first
+      @races = Race.order("RANDOM()").limit(6)
+      @alignments = Alignment.all
     end
 
   end

@@ -6,7 +6,7 @@
                 <button class="btn btn-sm text-bg-dark dropdown-toggle" data-bs-toggle="dropdown">
                     <i class="bi bi-info-circle"></i>
                     Hello,
-                    <%= current_customer.first_name.present? ? current_customer.first_name : current_customer.email.split("@").first %>
+                    <%= current_customer.respond_to?(:first_name) ? current_customer.first_name : current_customer.email.split("@").first %>
                 </button>
                 <ul class="dropdown-menu">
                     <li><a href="/customers/edit" class="dropdown-item">

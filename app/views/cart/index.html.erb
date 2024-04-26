@@ -2,7 +2,15 @@
     <header class="page-header-bg-light">
         <h1>Cart</h1>
     </header>
+
     <div class="container">
+
+        <div id="breadcrumbs" class="d-flex align-items-center gap-1 py-2 text-bg-light my-3">
+            <%= link_to 'Home', root_path, :class => 'text-decoration-none' %> /
+            <%= link_to 'Store', characters_path, :class => 'text-decoration-none' %>
+            <i class="bi bi-arrow-right"></i>
+            <span class="text-secondary">Cart</span>
+        </div>
         <div class="row g-2">
             <ul class="col-md-8 m-0">
                 <% if cart.empty? %>

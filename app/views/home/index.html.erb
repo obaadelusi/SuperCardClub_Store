@@ -1,6 +1,9 @@
-<div class="container">
-    <h1>Super Card Club Store</h1>
+<header class="page-header" style="background-image:url(<%=image_path('comic_books_unsplash.jpg')%>)">
+    <h1 class="text-white">Supercard Club Store</h1>
+    <p class="text-light">Your favourite super heroes & villains cards.</p>
+</header>
 
+<div class="container">
     <div class="mx-auto home-form-wrapper">
         <form action="/" method="GET">
             <div class="input-group mb-3">
@@ -16,32 +19,63 @@
         </form>
     </div>
 
-    <div id="<%= dom_id @character %>" class="card overflow-hidden" style="max-width: 540px;">
-        <div class="row g-0">
-            <div class="col-md-4 card-image-cover">
-                <% if @character.image.present? %>
-                <%= image_tag @character.image, :class => 'img-fluid rounded-start', alt: @character.name %>
-                <% else %>
-                <%= image_tag("empty_image.jpg") %>
+    <div class="row mt-5">
+        <div class="col-md-7">
+            <h2>Characters</h2>
+            <div id="<%= dom_id @character %>" class="card overflow-hidden" style="max-width: 600px;">
+                <div class="row g-0">
+                    <div class="col-md-4 card-image-cover">
+                        <% if @character.image.present? %>
+                        <%= image_tag @character.image, :class => 'img-fluid rounded-start', alt: @character.name %>
+                        <% else %>
+                        <%= image_tag("empty_image.jpg") %>
+                        <% end %>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="card-body">
+                            <h3 class="card-title"><%= @character.name %></h3>
+                            <p class="card-text"><%= @character.description[0,70] %>...</p>
+                            <small class="text-body-secondary"><em>by</em> <%= @character.publisher.name %></small>
+                        </div>
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item">Combat: <%= @character.stat_combat %>, Intelligence:
+                                <%= @character.stat_intelligence %>, Speed: <%= @character.stat_speed %></li>
+                            <li class="list-group-item">Price: $<%=@character.price%></li>
+                        </ul>
+                        <div class="card-footer">
+                            <%= link_to "View #{@character.name}", @character %>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <a href="/characters" class="btn btn-success btn-stretch btn-lg" style="max-width: 600px;">View all
+                character cards</a>
+        </div>
+
+        <div class="col-md-5">
+            <h2>Races</h2>
+            <div class="d-flex flex-wrap gap-2">
+                <% @races.each do |r| %>
+                <div class="card">
+                    <div class="card-body">
+                        <%= link_to r.name, race_path(r) %>
+                    </div>
+                </div>
                 <% end %>
-            </div>
-            <div class="col-md-8">
-                <div class="card-body">
-                    <h3 class="card-title"><%= @character.name %></h3>
-                    <p class="card-text"><%= @character.description[0,70] %>...</p>
-                    <small class="text-body-secondary"><em>by</em> <%= @character.publisher.name %></small>
-                </div>
-                <ul class="list-group list-group-flush">
-                    <li class="list-group-item">Combat: <%= @character.stat_combat %>, Intelligence:
-                        <%= @character.stat_intelligence %>, Speed: <%= @character.stat_speed %></li>
-                    <li class="list-group-item">Price: $<%=@character.price%></li>
-                </ul>
-                <div class="card-footer">
-                    <%= link_to "View #{@character.name}", @character %>
+                <div class="card">
+                    <div class="card-body text-bg-light">
+                        <%= link_to 'View all ->', races_path %>
+                    </div>
                 </div>
             </div>
+            <br>
+            <h2>Alignments</h2>
+            <% @alignments.each do |a| %>
+            <div class="card mb-2">
+                <div class="card-body"><%= link_to a.name, alignment_path(a) %></div>
+            </div>
+            <% end %>
         </div>
     </div>
-
-    <a href="/characters" class="btn btn-primary">View all character cards</a>
 </div>

@@ -3,7 +3,7 @@
 # Alignment.destroy_all
 # Race.destroy_all
 AdminUser.destroy_all
-# Province.destroy_all
+# # Province.destroy_all
 
 AdminUser.create!(email: 'admin@example.com', password: 'password', password_confirmation: 'password') if Rails.env.development?
 
@@ -68,11 +68,10 @@ for c in data
     character.publisher = publisher
     character.alignment = alignment
 
-    puts "# Before: #{character.name} | race: '#{race.name}'"
-
     race.name.nil? ? character.race = race_unknown : character.race = race
 
-    character.image.attach(io: c_image, filename: "img-#{character.name.gsub(" ", "-")}.jpg")
+    c_image_filename = "img-#{character.name.gsub(" ", "-")}.jpg"
+    character.image.attach(io: c_image, filename: c_image_filename, content_type: "image/jpeg")
     sleep(1)
   end
 
@@ -92,46 +91,47 @@ require 'nokogiri'
 require 'open-uri'
 
 def scrape_provinces
-  url = 'https://en.wikipedia.org/wiki/Canadian_postal_abbreviations_for_provinces_and_territories'
-  html = URI.open(url)
-  doc = Nokogiri::HTML(html)
-
+  puts "# Scraping provinces from web..."
   provinces = []
 
-  # The table containing the province names and abbreviations
-  table = doc.at('table.wikitable')
+  url = "https://www.avalara.com/vatlive/en/country-guides/north-america/canada/canadian-vat-compliance-and-rates.html"
+  doc = Nokogiri::HTML(URI.open(url))
 
-  # Iterate over each row in the table, starting from the second row (skipping headers)
-  table.css('tr')[1..].each do |row|
-    th_cell = row.css('th')
+  table = doc.at('table')
+
+  table.css('tr').each do |row|
     td_cells = row.css('td')
 
-    # Extract province name and abbreviation from the cells
-    name = th_cell[0].text.strip
-    abbreviation = td_cells[0].text.strip
+    nameCell = td_cells[0]
+    typeCell = td_cells[1]
+    pstCell = td_cells[3]
+    gstCell = td_cells[4]
 
-    # Add province to the provinces array
-    provinces << { name: name, abbreviation: abbreviation }
+    if !gstCell.nil? && !gstCell.text.nil? && gstCell.text.strip != "Federal GST"
+      nameStr = nameCell.text.strip
+      typeStr = typeCell.text.strip
+      pstStr = pstCell.text.strip.gsub("%", "")
+      gstStr = gstCell.text.strip.gsub("%", "")
+
+      pst = typeStr.downcase.include?("pst") ||
+        typeStr.downcase.include?("qst") ? (pstStr.to_f/100).round(5) : nil
+      gst = (gstStr.to_f/100).round(2)
+      hst = typeStr.downcase.include?("hst") ?
+        pstStr.to_f/100 : nil
+
+      provinces << {
+      name: nameStr,
+      pst: pst,
+      gst: gst,
+      hst: hst,
+    }
   end
-
+  end
   provinces
 end
 
 provinces = scrape_provinces
 provinces.each do |p|
-  province = Province.find_or_create_by(name: p[:name], abbreviation: p[:abbreviation], country: 'Canada')
-  puts "# Province: #{province.name} - #{province.abbreviation}"
+  prov = Province.find_or_create_by(name: p[:name], gst: p[:gst], pst: p[:pst], hst: p[:hst], country: "Canada")
+  puts "#{prov.name} \tGST: #{prov.gst} | PST: #{prov.pst} | HST: #{prov.hst}"
 end
-
-# ---> Change prices to double digits
-
-# characters = Character.all
-
-# characters.each do |c|
-#   puts "\n>> Before: \t#{c.name} \tprice: #{c.price}"
-#   new_price = Faker::Number.decimal(l_digits: 2, r_digits: 2)
-
-#   c.price = new_price
-#   c.save
-#   puts ">> After: \t#{c.name} \tprice #{c.price} \n"
-# end

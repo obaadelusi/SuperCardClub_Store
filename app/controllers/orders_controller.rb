@@ -1,6 +1,16 @@
 class OrdersController < ApplicationController
   def index
+    if current_customer.nil?
+      redirect_to new_customer_session_path
+      return
+    end
+
     @orders = Order.where(customer_id: current_customer.id).reverse
+
+    if @orders.nil?
+      redirect_to new_customer_session_path
+      return
+    end
 
     @subtotals = []
     @totals = []

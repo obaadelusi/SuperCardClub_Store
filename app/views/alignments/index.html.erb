@@ -2,8 +2,14 @@
   <h1 class="text-white">Alignments</h1>
 </header>
 
+<div id="breadcrumbs" class="d-flex align-items-center gap-1 py-2 text-bg-light">
+  <%= link_to 'Home', root_path, :class => 'text-decoration-none' %>
+  <i class="bi bi-arrow-right"></i>
+  <span class="text-secondary">Category / Alignments</span>
+</div>
+
 <div class="container mb-5">
-  <%= link_to "+ New alignment", new_alignment_path, :class => 'btn btn-success my-3' %>
+  <%#= link_to "+ New alignment", new_alignment_path, :class => 'btn btn-success my-3' %>
 
   <div class="alert alert-primary d-flex align-items-center gap-2" role="alert">
     <i class="bi bi-info-circle-fill"></i>

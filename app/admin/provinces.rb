@@ -7,7 +7,6 @@ ActiveAdmin.register Province do
     selectable_column
     id_column
     column :name
-    column :abbreviation
     column :pst
     column :gst
     column :hst
@@ -19,7 +18,6 @@ ActiveAdmin.register Province do
   form do |f|
     f.inputs "Province Details" do
       f.input :name
-      f.input :abbreviation
       f.input :country, :as=>:string
       f.input :hst, :label=>'HST'
       f.input :gst, :label=>'GST'
