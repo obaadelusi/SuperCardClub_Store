@@ -10,12 +10,12 @@ AdminUser.create!(email: 'admin@example.com', password: 'password', password_con
 require 'uri'
 require 'net/http'
 
-alignments = ["heroes", "villains"]
+alignments = ["heroes", "villains", "heroes", "villains"]
 
 alignments.each do |alignment|
 # Get data from API
 url = URI("https://superhero-search.p.rapidapi.com/api/#{alignment}")
-puts ">>> Getting #{alignment} from API..."
+puts ">>>> Getting #{alignment} from API <<<<"
 
 http = Net::HTTP.new(url.host, url.port)
 http.use_ssl = true
@@ -27,9 +27,9 @@ request["X-RapidAPI-Host"] = 'superhero-search.p.rapidapi.com'
 response = http.request(request)
 data = JSON.parse(response.read_body) # Convert JSON data into Ruby data.
 
-puts "Returned #{data.length()} super #{alignment}..."
+puts "-->> Returned #{data.length()} super #{alignment}..."
 
-race_unknown = Race.find_by(name: "Unknown")
+race = Race.find_or_create_by!(name: "Unknown")
 
 for c in data
   c_name = c["name"]
@@ -42,18 +42,24 @@ for c in data
   c_power = c["powerstats"]["power"]
   c_speed = c["powerstats"]["speed"]
   c_strength = c["powerstats"]["strength"]
+  c_race = c["appearance"]["race"]
   c_image = URI.open(c["images"]["md"])
   rand = [0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0]
 
   publisher = Publisher.find_or_create_by!(name: c["biography"]["publisher"])
   alignment = Alignment.find_or_create_by!(name: c["biography"]["alignment"])
-  race = Race.find_or_create_by!(name: c["appearance"]["race"])
+  if c_race.present?
+    race = Race.find_or_create_by!(name: c_race)
+  end
 
   character = Character.find_by(name: c_name)
 
   if character.present?
     character.description = c_desc
     puts "--> #{character.name} aleady exists | race: #{character.race.id}"
+    c_image_filename = "img-#{character.name.gsub(" ", "-")}.jpg"
+    character.image.attach(io: c_image, filename: c_image_filename, content_type: "image/jpeg")
+    sleep(1)
   else
     character = Character.create(name: c_name)
     character.description = c_desc
