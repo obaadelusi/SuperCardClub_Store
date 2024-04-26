@@ -166,6 +166,7 @@ class CheckoutController < ApplicationController
 
   # on payment cancel
   def cancel
+    flash[:alert] = "Payment unsuccessful. Please try again."
     redirect_to checkout_index_path
   end
 
