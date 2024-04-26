@@ -1,7 +1,7 @@
 <div class="page-header-bg-light">
     <h1>Your orders</h1>
     <p class="text-uppercase">
-        <%=current_customer.respond_to?(:first_name) ? current_customer.first_name : current_customer.email %></p>
+        <%=current_customer.first_name.present? ? current_customer.first_name : current_customer.email %></p>
 </div>
 
 <main class="container">

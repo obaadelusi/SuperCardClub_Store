@@ -1,4 +1,6 @@
 class Alignment < ApplicationRecord
+  validates :name, presence: true
+
   has_many :characters
 
   def self.ransackable_attributes(auth_object = nil)

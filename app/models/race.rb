@@ -1,4 +1,6 @@
 class Race < ApplicationRecord
+  validates :name, presence: true
+
   has_many :characters, dependent: :destroy
 
   def self.ransackable_attributes(auth_object = nil)

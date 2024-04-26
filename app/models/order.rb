@@ -1,4 +1,7 @@
 class Order < ApplicationRecord
+  validates :status, presence: true
+  validates :hst, :gst, :pst, :grand_total, numericality: { allow_nil: true }
+
   belongs_to :customer
   has_many :order_items, dependent: :destroy
 

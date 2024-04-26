@@ -1,4 +1,7 @@
 class OrderItem < ApplicationRecord
+  validates :quantity, :price, presence: true
+  validates :quantity, :price, numericality: true
+
   belongs_to :order
   belongs_to :character
 

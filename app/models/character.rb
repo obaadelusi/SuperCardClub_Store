@@ -1,5 +1,6 @@
 class Character < ApplicationRecord
-  validates :name, presence: true
+  validates :name, :price, :description, presence: true
+  validates :price, numericality: true
 
   belongs_to :publisher
   belongs_to :race
