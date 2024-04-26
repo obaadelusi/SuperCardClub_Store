@@ -11,9 +11,6 @@
 # It's strongly recommended that you check this file into your version control system.
 
 ActiveRecord::Schema[7.1].define(version: 2024_04_25_231658) do
-# Could not dump table "action_text_rich_texts" because of following StandardError
-#   Unknown type 'uuid' for column 'record_id'
-
   create_table "active_admin_comments", force: :cascade do |t|
     t.string "namespace"
     t.text "body"
@@ -108,15 +105,8 @@ ActiveRecord::Schema[7.1].define(version: 2024_04_25_231658) do
     t.datetime "remember_created_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "first_name"
-    t.string "last_name"
-    t.string "street"
-    t.string "city"
-    t.integer "province_id"
-    t.string "country"
     t.string "postal_code"
     t.index ["email"], name: "index_customers_on_email", unique: true
-    t.index ["province_id"], name: "index_customers_on_province_id"
     t.index ["reset_password_token"], name: "index_customers_on_reset_password_token", unique: true
   end
 
@@ -154,8 +144,8 @@ ActiveRecord::Schema[7.1].define(version: 2024_04_25_231658) do
   end
 
   create_table "provinces", force: :cascade do |t|
-    t.string "abbreviation"
     t.string "name"
+    t.string "abbreviation"
     t.string "country"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -181,7 +171,6 @@ ActiveRecord::Schema[7.1].define(version: 2024_04_25_231658) do
   add_foreign_key "characters", "alignments"
   add_foreign_key "characters", "publishers"
   add_foreign_key "characters", "races"
-  add_foreign_key "customers", "provinces"
   add_foreign_key "order_items", "characters"
   add_foreign_key "order_items", "orders"
   add_foreign_key "orders", "customers"

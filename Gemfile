@@ -79,3 +79,5 @@ gem 'kaminari'
 gem 'nokogiri'
 
 gem 'stripe'
+gem 'aws-sdk-s3'
+gem 'dotenv-rails'

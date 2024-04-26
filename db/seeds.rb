@@ -2,10 +2,10 @@
 # Publisher.destroy_all
 # Alignment.destroy_all
 # Race.destroy_all
-# AdminUser.destroy_all
+AdminUser.destroy_all
 # Province.destroy_all
 
-# AdminUser.create!(email: 'admin@example.com', password: 'password', password_confirmation: 'password') if Rails.env.development?
+AdminUser.create!(email: 'admin@example.com', password: 'password', password_confirmation: 'password') if Rails.env.development?
 
 require 'uri'
 require 'net/http'
@@ -77,7 +77,7 @@ for c in data
   end
 
   character.save
-  puts "## New: #{character.name} | race: '#{character.race.name}'"
+  puts "## New product: #{character.name} | price: $#{character.price}"
   if race.name.nil?
     race.destroy
   end

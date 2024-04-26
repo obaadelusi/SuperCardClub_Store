@@ -21,8 +21,8 @@ class CharactersController < ApplicationController
         @characters = Character.where("created_at >= ?", 3.days.ago).page(params[:page]).per(11)
         @characters_count = Character.where("created_at >= ?", 3.days.ago).count
       else
-        @characters = Character.order("RANDOM()").page(params[:page]).per(25)
-        @characters_count = Character.order("RANDOM()").all.count
+        @characters = Character.order("RANDOM()").page(params[:page]).per(20)
+        @characters_count = Character.all.count
       end
     end
   end
