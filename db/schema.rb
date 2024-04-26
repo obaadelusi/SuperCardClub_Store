@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_04_23_065120) do
+ActiveRecord::Schema[7.1].define(version: 2024_04_25_231658) do
 # Could not dump table "action_text_rich_texts" because of following StandardError
 #   Unknown type 'uuid' for column 'record_id'
 
@@ -140,6 +140,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_04_23_065120) do
     t.decimal "gst"
     t.decimal "pst"
     t.string "grand_total"
+    t.string "stripe_payment_id"
     t.index ["customer_id"], name: "index_orders_on_customer_id"
   end
 

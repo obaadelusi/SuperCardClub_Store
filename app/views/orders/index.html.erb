@@ -9,9 +9,9 @@
         <div class="card w-100" id="<%= dom_id o %>" style="max-width: 420px;">
             <div class="p-3">
                 <h3>Order Invoice #<%= o.id %></h3>
-                <p>Date: <%= o.created_at.strftime('%a, %b %d %Y, %I:%M%p') %></p>
+                <p>Date: <%= o.created_at.in_time_zone(Time.zone).strftime('%a, %b %d %Y, %I:%M%p') %></p>
                 <p>Status: <span
-                        class="badge <%=o.status=='new' ? 'bg-success' : 'bg-dark' %>"><%= o.status.capitalize %></span>
+                        class="badge <%=o.status=='new' ? 'bg-primary' : o.status=='paid' ? 'bg-success' : 'bg-dark' %>"><%= o.status.capitalize %></span>
                 </p>
                 <p class="text-uppercase"><b><%= pluralize(o.order_items.size, 'item') %></b> <span
                         class="float-end">Totals</span></p>

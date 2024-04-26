@@ -16,8 +16,14 @@ Rails.application.routes.draw do
   resources :alignments
   resources :publishers
 
-  resources :checkout, only: [:index, :create]
   resources :orders, only: [:index, :create]
+  resources :checkout, only: [:index, :create]
+  scope "/checkout" do
+    # get "", to: "checkout#index", as: "checkout_index"
+    # post "create", to: "checkout#create", as: "checkout_create"
+    get "success", to: "checkout#success", as: "checkout_success"
+    get "cancel", to: "checkout#cancel", as: "checkout_cancel"
+  end
 
   resources :cart, only: [:index, :create, :destroy]
   post '/update_cart_item', to: 'cart#update_cart_item', as: 'update_cart_item'

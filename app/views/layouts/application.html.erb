@@ -21,6 +21,7 @@
   <link
     href="https://fonts.googleapis.com/css2?family=Platypi&family=Jersey+10&family=Work+Sans:ital,wght@0,100..900;1,100..900&display=swap"
     rel="stylesheet">
+  <script src="https://js.stripe.com/v3"></script>
 </head>
 
 <body>
@@ -36,10 +37,19 @@
   <% end %>
 
   <% if alert.present? %>
-  <div class="alert alert-warning alert-dismissible fade show d-flex align-items-center gap-2" role="alert">
-    <div class="bi bi-exclamation-triangle"></div>
-    <%= alert %>
-    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+  <div class="toast-container pt-5 ps-5 top-0 start-0" id="toastPlacement">
+    <div id="liveToast" class="toast overflow-hidden" role="alert" aria-live="assertive" aria-atomic="true"
+      data-bs-autohide="false">
+      <div class="toast-header">
+        <div class="rounded-3 bg-danger me-1" style="width: 20px;height: 20px;"></div>
+        <strong class="me-auto">New Message</strong>
+        <small class="text-body-secondary">just now</small>
+        <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+      </div>
+      <div class="toast-body text-bg-danger">
+        <%= alert %>
+      </div>
+    </div>
   </div>
   <% end %>
 
@@ -55,6 +65,7 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js"
     integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy"
     crossorigin="anonymous"></script>
+  <%= javascript_include_tag 'custom' %>
 </body>
 
 </html>

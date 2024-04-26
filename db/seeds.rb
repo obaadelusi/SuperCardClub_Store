@@ -10,9 +10,12 @@
 require 'uri'
 require 'net/http'
 
+alignments = ["heroes", "villains"]
+
+alignments.each do |alignment|
 # Get data from API
-# url = URI("https://superhero-search.p.rapidapi.com/api/heroes")
-url = URI("https://superhero-search.p.rapidapi.com/api/villains")
+url = URI("https://superhero-search.p.rapidapi.com/api/#{alignment}")
+puts ">>> Getting #{alignment} from API..."
 
 http = Net::HTTP.new(url.host, url.port)
 http.use_ssl = true
@@ -24,15 +27,15 @@ request["X-RapidAPI-Host"] = 'superhero-search.p.rapidapi.com'
 response = http.request(request)
 data = JSON.parse(response.read_body) # Convert JSON data into Ruby data.
 
-puts "Returned #{data.length()} super characters..."
+puts "Returned #{data.length()} super #{alignment}..."
 
-race_unknown = Race.find_by(name: 'Unknown')
+race_unknown = Race.find_by(name: "Unknown")
 
 for c in data
   c_name = c["name"]
   c_fullname = c["biography"]["fullName"].strip.length==0 ? c_name : c["biography"]["fullName"]
   c_desc = "Fullname: #{c_fullname} \nGender: #{c["appearance"]["gender"]} \nAliases: #{(c["biography"]["aliases"]).join(", ")} \nAlter egos: #{c["biography"]["alterEgos"]} \nPoB: #{c["biography"]["placeOfBirth"]} \nGroup: #{c["connections"]["groupAffiliation"]} \nBase: #{c["work"]["base"]} \nOccupation: #{c["work"]["occupation"]} \nRelatives: #{c["connections"]["relatives"]}"
-  c_price = Faker::Number.decimal(l_digits: 3, r_digits: 2)
+  c_price = Faker::Number.decimal(l_digits: 2, r_digits: 2)
   c_combat = c["powerstats"]["combat"]
   c_durability = c["powerstats"]["durability"]
   c_intel = c["powerstats"]["intelligence"]
@@ -44,13 +47,13 @@ for c in data
 
   publisher = Publisher.find_or_create_by!(name: c["biography"]["publisher"])
   alignment = Alignment.find_or_create_by!(name: c["biography"]["alignment"])
-  race = Race.find_or_create_by(name: c["appearance"]["race"])
+  race = Race.find_or_create_by!(name: c["appearance"]["race"])
 
   character = Character.find_by(name: c_name)
 
   if character.present?
     character.description = c_desc
-    puts "--> #{character.name} aleady exists. Description updated."
+    puts "--> #{character.name} aleady exists | race: #{character.race.id}"
   else
     character = Character.create(name: c_name)
     character.description = c_desc
@@ -65,54 +68,26 @@ for c in data
     character.publisher = publisher
     character.alignment = alignment
 
-    race.name.present? ? character.race = race : character.race = race_unknown
+    puts "# Before: #{character.name} | race: '#{race.name}'"
+
+    race.name.nil? ? character.race = race_unknown : character.race = race
 
     character.image.attach(io: c_image, filename: "img-#{character.name.gsub(" ", "-")}.jpg")
     sleep(1)
-
-    puts "# New: #{character.name} | on_sale: #{character.on_sale}"
   end
 
   character.save
+  puts "## New: #{character.name} | race: '#{character.race.name}'"
+  if race.name.nil?
+    race.destroy
+  end
 
 end
 
-# Add on_sale data to characters
-# characters = Character.all
+end
 
-# for c in characters
-  # ch = Character.find_by(name: "Robin")
-  # ch_name = ch["name"]
-  # url = URI("https://superhero-search.p.rapidapi.com/api/?hero=#{ch_name}")
-
-  # http = Net::HTTP.new(url.host, url.port)
-  # http.use_ssl = true
-
-  # request = Net::HTTP::Get.new(url)
-  # request["X-RapidAPI-Key"] = '94438023f0msh0b85bca741b4229p195ef8jsn1670d5c37c65'
-  # request["X-RapidAPI-Host"] = 'superhero-search.p.rapidapi.com'
-
-  # response = http.request(request)
-  # d = JSON.parse(response.read_body) # Convert JSON data into Ruby data.
-  # #pp d
-
-  # c_fullname = d["biography"]["fullName"].strip.length==0 ? ch_name : d["biography"]["fullName"]
-  # c_desc = "Fullname: #{c_fullname} \nGender: #{d["appearance"]["gender"]} \nAliases: #{(d["biography"]["aliases"]).join(", ")} \nAlter egos: #{d["biography"]["alterEgos"]} \nPoB: #{d["biography"]["placeOfBirth"]} \nFirst appearance: #{d["biography"]["firstAppearance"]} \nGroup: #{d["connections"]["groupAffiliation"]} \nBase: #{d["work"]["base"]} \nOccupation: #{d["work"]["occupation"]} \nRelatives: #{d["connections"]["relatives"]}"
-  # ch.description = c_desc
-
-  # ch_image = URI.open(d["images"]["md"])
-  # ch.image.attach(io: ch_image, filename: "img-#{ch.name.gsub(" ", "-")}.jpg")
-  # sleep(1)
-
-  # rand = [0, 0, 0, 1, 0, 0, 1, 0, 0, 0]
-  # ch.on_sale = rand.sample
-
-  # puts "#{ch.name} card on_sale: #{ch.on_sale}"
-  # ch.save
-# end
 
 ## --->> Add provinces/territories
-
 require 'nokogiri'
 require 'open-uri'
 
@@ -147,3 +122,16 @@ provinces.each do |p|
   province = Province.find_or_create_by(name: p[:name], abbreviation: p[:abbreviation], country: 'Canada')
   puts "# Province: #{province.name} - #{province.abbreviation}"
 end
+
+# ---> Change prices to double digits
+
+# characters = Character.all
+
+# characters.each do |c|
+#   puts "\n>> Before: \t#{c.name} \tprice: #{c.price}"
+#   new_price = Faker::Number.decimal(l_digits: 2, r_digits: 2)
+
+#   c.price = new_price
+#   c.save
+#   puts ">> After: \t#{c.name} \tprice #{c.price} \n"
+# end

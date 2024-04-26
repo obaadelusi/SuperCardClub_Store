@@ -4,7 +4,7 @@
 
 <main class="container mb-5">
     <% if current_customer.present? %>
-    <%= form_for(current_customer, url: checkout_index_path, html: { method: :post, class: 'row g-2' }) do |f| %>
+    <%= form_for(current_customer, url: checkout_index_path, html: { method: :post, class: 'row g-2' }, data: { turbo: false }) do |f| %>
     <div class="col-md-7 card bg-light p-4">
         <h3 class="mb-4">Billing Address</h3>
 
@@ -44,39 +44,6 @@
         <div class="mb-3">
             <%= f.label :postal_code %>
             <%= f.text_field :postal_code, autocomplete: "postal-code", :class=>'form-control' %>
-        </div>
-
-        <hr>
-
-        <h3>Payment</h3>
-
-        <div class="mb-3">
-            <%= f.label 'cardname', 'Name on card' %>
-            <input type="text" name="cardname" id="cardname" class="form-control">
-        </div>
-
-        <div class="mb-3">
-            <%= f.label 'cardnumber', 'Credit card number' %>
-            <input type="text" name="cardnumber" id="cardnumber" class="form-control">
-        </div>
-
-        <div class="mb-3">
-            <%= f.label 'expmonth', 'Expiry date' %>
-            <div class="input-group">
-                <%= f.label 'Month', :class=>'input-group-text' %>
-                <input type="text" name="expmonth" id="expmonth" class="form-control">
-                <%= f.label 'Year', :class=>'input-group-text' %>
-                <input type="text" name="expyear" id="expyear" class="form-control">
-            </div>
-        </div>
-
-        <div class="mb-3">
-            <%= f.label 'cvv', 'CVV' %>
-            <input type="text" name="cvv" id="cvv" class="form-control">
-        </div>
-
-        <div class="actions">
-            <%= f.submit "Continue to checkout", :class=>'btn btn-success btn-stretch' %>
         </div>
     </div>
 
@@ -140,9 +107,10 @@
         <div class="my-3">
             <span>Pay with: </span>
             <div class="d-flex align-items-center gap-3">
-                <i class="bi bi-credit-card fs-3" style="color: brown;"></i>
+                <!-- <i class="bi bi-credit-card fs-3" style="color: brown;"></i> -->
+                Stripe
                 <i class="bi bi-stripe fs-3" style="color: purple;"></i>
-                <i class="bi bi-paypal fs-3" style="color: navy;"></i>
+                <!-- <i class="bi bi-paypal fs-3" style="color: navy;"></i> -->
             </div>
         </div>
     </div>

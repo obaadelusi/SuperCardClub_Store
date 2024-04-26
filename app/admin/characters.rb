@@ -16,6 +16,19 @@ ActiveAdmin.register Character do
   #   permitted
   # end
 
+  index do
+    selectable_column
+    id_column
+    column :name
+    column :price
+    column :publisher
+    column :alignment
+    column :race
+    column :created_at
+    column :on_sale
+    actions
+  end
+
   form do |f|
     f.semantic_errors
     f.inputs

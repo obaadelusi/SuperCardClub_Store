@@ -31,6 +31,7 @@ ActiveAdmin.register Order do
       row :customer
       row :status
       row :order_items
+      row :stripe_payment_id
       row :hst
       row :gst
       row :pst
