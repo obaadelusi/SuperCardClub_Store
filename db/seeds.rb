@@ -5,7 +5,7 @@
 AdminUser.destroy_all
 # # Province.destroy_all
 
-AdminUser.create!(email: 'admin@example.com', password: 'password', password_confirmation: 'password') if Rails.env.development?
+AdminUser.create!(email: 'admin@example.com', password: 'password', password_confirmation: 'password') #if Rails.env.development?
 
 require 'uri'
 require 'net/http'
